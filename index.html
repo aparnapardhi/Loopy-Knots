@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loopy Knots | Premium Handmade Crochet Store</title>
+  <meta name="description" content="Discover beautifully handcrafted crochet flowers, bouquets, charms, and more at Loopy Knots. Sustainable, premium, and made with love.">
+  
+  <!-- Open Graph / Meta Tags -->
+  <meta property="og:title" content="Loopy Knots | Premium Handmade Crochet Store">
+  <meta property="og:description" content="Discover beautifully handcrafted crochet flowers, bouquets, charms, and more at Loopy Knots. Sustainable, premium, and made with love.">
+  <meta property="og:image" content="assets/logo.jpg">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header>
+    <div class="logo-container">
+      <img src="assets/logo.jpg" alt="Loopy Knots Logo" class="logo-img animated-logo">
+    </div>
+
+    <div class="nav-actions">
+      <div class="search-bar">
+        <i data-lucide="search" size="18"></i>
+        <input type="text" id="searchInput" placeholder="Search handcrafted items...">
+      </div>
+
+      <nav class="desktop-nav" style="display: flex; gap: 1.5rem; font-weight: 500;">
+        <a href="#">Shop</a>
+        <a href="#">New Arrivals</a>
+      </nav>
+      
+      <button class="cart-icon-btn" id="cartBtn">
+        <i data-lucide="shopping-bag" size="20"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div id="waves-container">
+      <div class="pointer-dot"></div>
+    </div>
+    <div class="hero-content">
+      <img src="assets/mascot_new.png" alt="Loopy Knots Mascot" class="hero-mascot">
+      <div class="hero-label">BY ARTISANS FOR YOU</div>
+      <h1 class="hero-title">Stay Loopy.</h1>
+      <p class="hero-subtitle">Premium handcrafted crochet that doesn't take itself too seriously. Playful designs, serious quality.</p>
+    </div>
+    <div class="mascot-container">
+      <div class="scroll-container">
+        <div class="infinite-scroll" id="hero-slider">
+          <!-- Images injected by slider.js logic -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shop Section -->
+  <div class="section-header">
+    <div class="section-title">
+      <p>Our Collection</p>
+      <h2>Explore Loopy Knots</h2>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <span style="font-weight: 600; color: var(--charcoal-light);">Sort by:</span>
+      <select style="border: none; background: transparent; font-family: inherit; font-weight: 700; color: var(--terracotta); outline: none;">
+        <option>Featured</option>
+        <option>Price: Low to High</option>
+        <option>Newest</option>
+      </select>
+    </div>
+  </div>
+
+  <main class="shop-container">
+    <aside class="sidebar">
+      <div class="filter-group">
+        <h4>Categories</h4>
+        <div class="filter-list">
+          <label class="filter-item"><input type="checkbox" value="Flowers"> Flowers</label>
+          <label class="filter-item"><input type="checkbox" value="Bouquets"> Bouquets</label>
+          <label class="filter-item"><input type="checkbox" value="Bag Charms"> Bag Charms</label>
+          <label class="filter-item"><input type="checkbox" value="Hair Bows"> Hair Bows</label>
+          <label class="filter-item"><input type="checkbox" value="Tops"> Tops</label>
+          <label class="filter-item"><input type="checkbox" value="Phone Charms"> Phone Charms</label>
+        </div>
+      </div>
+      <div class="filter-group">
+        <h4>Price Range</h4>
+        <input type="range" min="0" max="100" value="100" style="width: 100%; accent-color: var(--terracotta);">
+        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-top: 5px;">
+          <span>₹0</span>
+          <span>₹10,000+</span>
+        </div>
+      </div>
+    </aside>
+
+    <div class="product-grid" id="productGrid"></div>
+  </main>
+
+  <!-- Cart Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="drawer-header">
+      <h3 style="font-size: 1.5rem;">Shopping Bag</h3>
+      <button class="close-drawer" id="closeCart">&times;</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    
+    <!-- Free Shipping Progress Bar -->
+    <div style="padding: 1.5rem; background: var(--cream-dark); border-top: 1px solid #EEE;">
+      <div id="shippingMsg" style="font-size: 0.85rem; font-weight: 700; color: var(--cobalt); margin-bottom: 8px;">Add more for FREE shipping!</div>
+      <div style="width: 100%; height: 8px; background: #EEE; border-radius: 4px; overflow: hidden;">
+        <div id="shippingProgress" style="width: 0%; height: 100%; background: var(--cobalt); transition: width 0.5s ease;"></div>
+      </div>
+    </div>
+    <div class="cart-summary">
+      <!-- Discount Code Section -->
+      <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #EEE;">
+        <div style="display: flex; gap: 10px;">
+          <input type="text" id="discountCode" placeholder="Enter code (e.g. LOOPY10)" style="flex: 1; padding: 10px; border: 1px solid #DDD; border-radius: 8px; font-family: inherit;">
+          <button class="btn btn-secondary" onclick="applyDiscount()" style="padding: 10px 20px; border-radius: 8px;">Apply</button>
+        </div>
+        <div id="discountMsg" style="font-size: 0.75rem; margin-top: 5px; font-weight: 600;"></div>
+      </div>
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="subtotal" style="font-weight: 700;">₹0</span>
+      </div>
+      <div class="summary-row" style="color: var(--cobalt); font-size: 0.9rem;">
+        <span>GST (18%)</span>
+        <span id="gstTotal">₹0</span>
+      </div>
+      <div class="summary-row total-row" style="margin-top: 1rem; border-top: 1px solid #eee; padding-top: 1rem;">
+        <span style="font-weight: 800; font-size: 1.2rem;">Total</span>
+        <span id="totalPrice" style="font-weight: 800; font-size: 1.2rem; color: var(--cobalt);">₹0</span>
+      </div>
+      <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; border-radius: var(--radius-xl);" onclick="openCheckout()">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <!-- Product Modal -->
+  <div class="product-modal" id="productModal" onclick="if(event.target === this) closeProductModal()">
+    <div class="modal-content">
+      <button class="close-drawer" style="position: absolute; top: 20px; right: 20px; z-index: 10;" onclick="closeProductModal()">&times;</button>
+      <div class="modal-gallery zoom-container">
+        <img id="modalImage" src="" alt="Product Detail">
+      </div>
+      <div class="modal-details">
+        <div class="modal-header">
+          <p id="modalCat" style="color: var(--sage); font-weight: 700; text-transform: uppercase; letter-spacing: 1px;"></p>
+          <h2 id="modalTitle"></h2>
+          <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 1rem;">
+            <div id="modalPrice" style="font-size: 2rem; font-weight: 800; color: var(--cobalt);"></div>
+            <div id="modalReviews" style="font-size: 0.9rem; color: #888;"></div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 2rem;">
+          <h4 style="margin-bottom: 10px;">Select Variant</h4>
+          <div id="variantOptions" style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <!-- Variant buttons injected by JS -->
+          </div>
+        </div>
+        <p style="color: var(--charcoal-light); margin-bottom: 2rem;">Every stitch in this piece was hand-crafted by our local artisans. We use sustainable, 100% cotton yarn.</p>
+        <button class="btn btn-primary" style="width: 100%;" onclick="addToCart(currentSelectedId); closeProductModal();">Add to Cart</button>
+        <p style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: #999;">Free shipping on orders over ₹4,999.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div class="product-modal" id="checkoutModal">
+    <div class="modal-content" style="max-width: 600px; display: block; padding: 3rem;">
+       <div style="text-align: center;">
+         <h2 style="font-size: 2rem; margin-bottom: 1rem;">Secure Checkout</h2>
+         <p>Complete your purchase in 3 easy steps.</p>
+       </div>
+
+       <div class="checkout-steps">
+         <div class="checkout-step active" id="step1">1. Shipping</div>
+         <div class="checkout-step" id="step2">2. Payment</div>
+         <div class="checkout-step" id="step3">3. Review</div>
+       </div>
+
+       <div id="shippingForm">
+         <div class="form-group" style="margin-bottom: 1.5rem;">
+           <label style="display: block; margin-bottom: 0.5rem; font-weight: 700;">Full Name</label>
+           <input type="text" style="width: 100%; padding: 1rem; border: 1px solid #DDD; border-radius: 12px;" placeholder="John Doe">
+         </div>
+         <div class="form-group" style="margin-bottom: 1.5rem;">
+           <label style="display: block; margin-bottom: 0.5rem; font-weight: 700;">Shipping State</label>
+           <select id="stateSelect" style="width: 100%; padding: 1rem; border: 1px solid #DDD; border-radius: 12px;" onchange="updateTaxType()">
+             <option value="within">Maharashtra (Same State)</option>
+             <option value="outside">Karnataka (Outside State)</option>
+             <option value="outside">Delhi (Outside State)</option>
+             <option value="outside">Tamil Nadu (Outside State)</option>
+             <option value="outside">Other (Outside State)</option>
+           </select>
+         </div>
+         <div class="form-group" style="margin-bottom: 1.5rem;">
+           <label style="display: block; margin-bottom: 0.5rem; font-weight: 700;">Shipping Address</label>
+           <textarea style="width: 100%; padding: 1rem; border: 1px solid #DDD; border-radius: 12px;" placeholder="123 Yarn Street, Mumbai"></textarea>
+         </div>
+         <button class="btn btn-primary" style="width: 100%;" onclick="nextStep(2)">Continue to Payment</button>
+       </div>
+
+       <div id="paymentForm" style="display: none;">
+         <div style="background: var(--cream-dark); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+           <div style="display: flex; justify-content: space-between; align-items: center;">
+             <strong>Credit / Debit Card</strong>
+             <i data-lucide="credit-card" size="24"></i>
+           </div>
+         </div>
+         <button class="btn btn-primary" style="width: 100%;" onclick="nextStep(3)">Review Order</button>
+       </div>
+
+       <div id="reviewForm" style="display: none; text-align: left;">
+          <h3 style="margin-bottom: 1rem;">Final Review</h3>
+          <div style="background: var(--cream-dark); padding: 1.5rem; border-radius: 16px; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span>Subtotal</span>
+              <span id="reviewSubtotal">₹0</span>
+            </div>
+            <div id="intraTaxRow" style="display: block;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: #666;">
+                <span>CGST (9%)</span>
+                <span id="cgstLabel">₹0</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: #666;">
+                <span>SGST (9%)</span>
+                <span id="sgstLabel">₹0</span>
+              </div>
+            </div>
+            <div id="interTaxRow" style="display: none;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: #666;">
+                <span>IGST (18%)</span>
+                <span id="igstLabel">₹0</span>
+              </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 1rem; border-top: 1px solid #DDD; padding-top: 1rem; font-weight: 800; font-size: 1.4rem; color: var(--cobalt);">
+              <span>Grand Total</span>
+              <span id="reviewTotal">₹0</span>
+            </div>
+          </div>
+          <button class="btn btn-primary" style="width: 100%;" onclick="alert('Order Placed Successfully! Your handcrafted treasures are on their way.'); window.location.reload();">Confirm & Pay</button>
+       </div>
+
+       <button style="margin-top: 2rem; background: none; color: #999; display: block; margin-left: auto; margin-right: auto;" onclick="document.getElementById('checkoutModal').classList.remove('active')">Cancel & Return to Cart</button>
+    </div>
+  </div>
+
+  <footer style="background: var(--cream-dark); padding: 5rem 5%; margin-top: 5rem;">
+    <div style="text-align: center; color: var(--sage); font-size: 0.9rem;">
+      &copy; 2026 Loopy Knots E-Commerce. Built with love and cobalt yarn.
+    </div>
+  </footer>
+
+  <script src="js/waves.js"></script>
+  <script src="js/slider.js"></script>
+  <script src="js/main.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>
