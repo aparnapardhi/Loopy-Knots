@@ -129,6 +129,7 @@
               <th>Customer</th>
               <th>Date</th>
               <th>Status</th>
+              <th>Payment</th>
               <th>Total</th>
               <th>Action</th>
             </tr>
@@ -138,7 +139,40 @@
           </tbody>
         </table>
       </div>
+    <!-- Order Details Modal -->
+    <div id="orderDetailsModal" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center; backdrop-filter: blur(4px);">
+      <div style="background: white; padding: 2.5rem; border-radius: 24px; width: 640px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); position: relative;">
+        <button onclick="closeOrderModal()" style="position: absolute; top:20px; right:20px; background:none; font-size: 1.5rem; cursor:pointer; border:none; color:#666;">&times;</button>
+        <h2>Order Details <span id="modalOrderId" style="color: var(--accent);"></span></h2>
+        
+        <div style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; background: #FAFAFA; padding: 1.5rem; border-radius: 12px; border: 1px solid #EEE;">
+          <div>
+            <p style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">Payment Status</p>
+            <div id="modalPaymentStatus" style="font-weight: 700;"></div>
+          </div>
+          <div>
+            <p style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">Shipping Address</p>
+            <div id="modalAddress" style="font-size: 0.9rem; line-height: 1.4;"></div>
+          </div>
+        </div>
+        
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Logistics & Fulfillment</h3>
+        <div style="border: 1px solid #EEE; padding: 1.5rem; border-radius: 12px;">
+          <button class="btn-primary" style="margin-bottom: 1.5rem; width: 100%; background: var(--cobalt);" onclick="generateLabel()">
+            Generate Shipping Label
+          </button>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" style="font-size: 0.85rem; font-weight: 600;">Courier Tracking ID</label>
+            <input type="text" id="trackingId" class="form-input" placeholder="e.g. BLUEDART12345">
+          </div>
+          <button class="btn-primary" style="width: 100%; background: #25D366; border: none;" onclick="sendTrackingWhatsApp()">
+            Send WhatsApp Update
+          </button>
+        </div>
+      </div>
     </div>
+
+  </div>
 
     <!-- Inventory Section -->
     <div id="productsSection" class="admin-section" style="display: none;">

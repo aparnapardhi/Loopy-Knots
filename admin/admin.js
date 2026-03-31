@@ -5,11 +5,11 @@
    ============================================================ */
 
 const ORDERS = [
-  { id: "#LK-2831", customer: "Alice Johnson", date: "Mar 22, 2026", status: "PENDING", total: 1250, items: 1 },
-  { id: "#LK-2830", customer: "Michael Chen", date: "Mar 21, 2026", status: "SHIPPED", total: 8450, items: 3 },
-  { id: "#LK-2829", customer: "Sarah Miller", date: "Mar 20, 2026", status: "DELIVERED", total: 450, items: 1 },
-  { id: "#LK-2828", customer: "David Brown", date: "Mar 19, 2026", status: "SHIPPED", total: 2450, items: 2 },
-  { id: "#LK-2827", customer: "Emma Wilson", date: "Mar 18, 2026", status: "DELIVERED", total: 12450, items: 4 },
+  { id: "#LK-2831", customer: "Alice Johnson", date: "Mar 22, 2026", status: "PENDING", payment: "razorpay_paid", total: 1250, items: 1, address: "Flat 12A, Yarn Towers, Mumbai, Maharashtra 400001" },
+  { id: "#LK-2830", customer: "Michael Chen", date: "Mar 21, 2026", status: "SHIPPED", payment: "razorpay_paid", total: 8450, items: 3, address: "B-2, Cotton Estate, Bangalore, Karnataka 560001" },
+  { id: "#LK-2829", customer: "Sarah Miller", date: "Mar 20, 2026", status: "DELIVERED", payment: "razorpay_paid", total: 450, items: 1, address: "19 Handcraft Lane, Delhi 110001" },
+  { id: "#LK-2828", customer: "David Brown", date: "Mar 19, 2026", status: "SHIPPED", payment: "upi_pending", total: 2450, items: 2, address: "40 Blue Stitch Park, Pune, Maharashtra 411001" },
+  { id: "#LK-2827", customer: "Emma Wilson", date: "Mar 18, 2026", status: "DELIVERED", payment: "razorpay_paid", total: 12450, items: 4, address: "81 Silk Road, Jaipur, Rajasthan 302001" },
 ];
 
 const CUSTOMERS = [
@@ -303,10 +303,44 @@ function renderOrders(items) {
       <td>
         <span class="status-tag status-${order.status.toLowerCase()}">${order.status}</span>
       </td>
+      <td>
+        <span style="font-size: 0.8rem; background: ${order.payment === 'razorpay_paid' ? '#E6F4EA' : '#FEF3C7'}; color: ${order.payment === 'razorpay_paid' ? '#1E8E3E' : '#D97706'}; padding: 4px 8px; border-radius: 4px; font-weight: 700;">
+          ${order.payment === 'razorpay_paid' ? 'PAID' : 'PENDING'}
+        </span>
+      </td>
       <td style="font-weight: 700;">₹${order.total.toLocaleString('en-IN')}</td>
-      <td style="color: var(--accent); font-weight: 600; cursor: pointer;">Update Status</td>
+      <td style="color: var(--accent); font-weight: 600; cursor: pointer;" onclick="openOrderModal('${order.id}')">Manage Order</td>
     </tr>
   `).join('');
+}
+
+window.openOrderModal = function(id) {
+  const order = ORDERS.find(o => o.id === id);
+  if(!order) return;
+  document.getElementById('modalOrderId').textContent = id;
+  const payStatusEl = document.getElementById('modalPaymentStatus');
+  payStatusEl.textContent = order.payment === 'razorpay_paid' ? 'Razorpay: Success' : 'Pending';
+  payStatusEl.style.color = order.payment === 'razorpay_paid' ? 'var(--success)' : 'var(--warning)';
+  document.getElementById('modalAddress').textContent = order.address || "No address provided";
+  
+  document.getElementById('orderDetailsModal').style.display = 'flex';
+};
+
+window.closeOrderModal = function() {
+  document.getElementById('orderDetailsModal').style.display = 'none';
+};
+
+window.generateLabel = function() {
+  showToast("Shipping Label Generated successfully. Downloading...", "success");
+};
+
+window.sendTrackingWhatsApp = function() {
+  const tid = document.getElementById('trackingId').value;
+  if(tid.length < 3) {
+    showToast("Please enter a valid Courier Tracking ID first.", "warning");
+    return;
+  }
+  showToast(`WhatsApp update sent for Tracking ID: ${tid}`, "success");
 }
 
 /* ============ DASHBOARD ============ */
