@@ -266,7 +266,15 @@
           <textarea id="customNotes" style="width: 100%; border: 1px solid #DDD; border-radius: var(--radius-sm); padding: 10px; font-family: inherit;" rows="2" placeholder="Any special requests?"></textarea>
         </div>
         <p style="color: var(--charcoal-light); margin-bottom: 2rem;">Every stitch in this piece was hand-crafted by our local artisans. We use sustainable, 100% cotton yarn.</p>
-        <button class="btn btn-primary" style="width: 100%;" onclick="addToCart(currentSelectedId); closeProductModal();">Add to Cart</button>
+        
+        <div style="display: flex; gap: 15px; margin-bottom: 1rem;">
+          <div style="display: flex; align-items: center; border: 1px solid #DDD; border-radius: var(--radius-sm); padding: 5px 10px;">
+             <button style="border: none; background: none; font-size: 1.5rem; cursor: pointer; color: var(--cobalt);" onclick="document.getElementById('modalQty').stepDown()">&minus;</button>
+             <input type="number" id="modalQty" value="1" min="1" max="10" style="width: 50px; text-align: center; border: none; font-size: 1.1rem; font-weight: 700; background: none;">
+             <button style="border: none; background: none; font-size: 1.5rem; cursor: pointer; color: var(--cobalt);" onclick="document.getElementById('modalQty').stepUp()">&plus;</button>
+          </div>
+          <button class="btn btn-primary" style="flex: 1;" onclick="addToCart(currentSelectedId); closeProductModal();">Add to Cart</button>
+        </div>
         <p style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: #999;">Free shipping on orders over ₹4,999.</p>
       </div>
     </div>

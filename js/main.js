@@ -232,6 +232,9 @@ window.openProductModal = function(id) {
   const modal = document.getElementById('productModal');
   currentSelectedId = id;
   
+  const modalQty = document.getElementById('modalQty');
+  if (modalQty) modalQty.value = 1;
+  
   const modalImg = document.getElementById('modalImage');
   if (modalImg) {
     if (product.image) {
@@ -331,8 +334,11 @@ function addToCart(id, variant = null) {
   
   const gmEl = document.getElementById('giftMessage');
   const cnEl = document.getElementById('customNotes');
+  const qtyEl = document.getElementById('modalQty');
+  
   const giftMsg = gmEl ? gmEl.value : '';
   const customNotes = cnEl ? cnEl.value : '';
+  const qtyToAdd = qtyEl ? parseInt(qtyEl.value, 10) || 1 : 1;
   
   // Clean up modals for next open
   if(gmEl) gmEl.value = '';
@@ -341,9 +347,9 @@ function addToCart(id, variant = null) {
   const existing = cart.find(item => item.id === id && item.variant === selectedVariant && item.giftMsg === giftMsg && item.customNotes === customNotes);
   
   if (existing) {
-    existing.quantity += 1;
+    existing.quantity += qtyToAdd;
   } else {
-    cart.push({...product, quantity: 1, variant: selectedVariant, giftMsg, customNotes});
+    cart.push({...product, quantity: qtyToAdd, variant: selectedVariant, giftMsg, customNotes});
   }
   
   saveCart();
