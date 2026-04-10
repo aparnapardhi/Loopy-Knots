@@ -916,8 +916,8 @@ header {
   }
 
   .hero {
-    min-height: auto !important;
-    padding-bottom: 0 !important;
+    min-height: 0 !important;
+    padding: 1rem 5% 0 5% !important;
   }
 
   .hero-content {
@@ -930,7 +930,7 @@ header {
 
   .mascot-container {
     margin-top: 0 !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 0.5rem !important;
   }
 
   .mobile-categories-hero {
@@ -938,7 +938,7 @@ header {
     position: relative;
     z-index: 10;
     margin-top: 0 !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 0 !important;
   }
 
   .desktop-only {
@@ -1053,52 +1053,11 @@ header {
     position: relative;
     z-index: 10;
     margin-top: 0 !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 0 !important;
   }
 
   .section-header {
     padding-top: 1rem !important;
-  }
-
-  .product-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 1rem;
-    padding: 0 5% 2rem 5%;
-  }
-
-  .product-card {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .quick-add {
-    display: none !important;
-  }
-
-  .add-to-cart-mob {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    background: var(--cobalt);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    transition: var(--transition);
-  }
-
-  .add-to-cart-mob:active {
-    transform: scale(0.9);
-  }
-
-  .product-info {
-    padding: 0.8rem;
-  }
-
-  .product-name {
-    font-size: 0.95rem;
   }
 
   .product-price {
