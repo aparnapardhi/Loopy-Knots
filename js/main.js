@@ -176,14 +176,25 @@ function renderProducts(items) {
         <div class="product-name">${product.name}</div>
         <div class="product-bottom">
           <div class="product-price">₹${product.price.toLocaleString('en-IN')}</div>
-          <div class="product-rating">
+          <div class="product-rating-mob mobile-only">
+             <span class="star">★</span> ${product.rating}
+          </div>
+          <div class="product-rating desktop-only">
             <span class="star">★</span> ${product.rating}
           </div>
+          <button class="add-to-cart-mob" onclick="event.stopPropagation(); triggerAddAnimation(this, ${product.id})">
+            <i data-lucide="plus" size="20"></i>
+          </button>
         </div>
       </div>
     </div>
   `;
   }).join('');
+  
+  // Re-initialize icons for newly added buttons
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
 }
 
 window.triggerAddAnimation = function(btn, id) {
