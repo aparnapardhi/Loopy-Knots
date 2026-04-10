@@ -15,6 +15,9 @@
   --radius-md: 20px;
   --radius-lg: 32px;
   --radius-xl: 48px;
+  --radius-dynamic: var(--radius-lg);
+  --radius-dynamic-xl: var(--radius-xl);
+  --section-py: 4rem;
   --shadow: 0 10px 40px rgba(26, 83, 255, 0.08);
   --shadow-hover: 0 15px 50px rgba(26, 83, 255, 0.15);
   --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Playful spring */
@@ -138,6 +141,51 @@ header {
   75% { transform: scale(1.2) rotate(-3deg); }
 }
 
+/* --- Global Mobile Elements --- */
+.mobile-logo { display: none; }
+.mobile-nav-toggle { display: none; }
+.mobile-menu-drawer {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 85%;
+  max-width: 320px;
+  height: 100vh;
+  background: var(--cream);
+  z-index: 1000;
+  transition: left 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  overflow-y: auto;
+  box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+  padding: 2rem 1.5rem;
+}
+.mobile-menu-drawer.active {
+  left: 0;
+}
+.mobile-menu-drawer a {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  text-decoration: none;
+  padding: 0.5rem 0;
+  display: block;
+}
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(2px);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s;
+}
+.mobile-menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
 
 .nav-actions {
   display: flex;
@@ -212,7 +260,7 @@ header {
 
 .hero {
   position: relative;
-  padding: 4rem 5% 0rem 5%; /* Lofted content higher as requested */
+  padding: var(--section-py) 5% 0rem 5%; /* Lofted content higher as requested */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -326,10 +374,12 @@ header {
 }
 
 .image-item {
-  width: 300px;
-  height: 300px;
+  width: 80vw;
+  max-width: 300px;
+  aspect-ratio: 1 / 1;
+  height: auto;
   flex-shrink: 0;
-  border-radius: 32px;
+  border-radius: var(--radius-dynamic);
   overflow: hidden;
   box-shadow: 0 15px 45px rgba(0,0,0,0.1);
   transition: transform 0.4s ease;
@@ -465,7 +515,7 @@ header {
 /* --- Product Section --- */
 
 .section-header {
-  padding: 4rem 5% 1rem 5%;
+  padding: var(--section-py) 5% 1rem 5%;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -484,11 +534,29 @@ header {
   font-size: 0.8rem;
 }
 
+.sort-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.sort-label {
+  font-weight: 600;
+  color: var(--charcoal-light);
+}
+.sort-select {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-weight: 700;
+  color: var(--terracotta);
+  outline: none;
+}
+
 .shop-container {
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 3rem;
-  padding: 2rem 5%;
+  padding: calc(var(--section-py) / 2) 5%;
 }
 
 .sidebar {
@@ -533,7 +601,7 @@ header {
 
 .product-card {
   background: var(--white);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-dynamic);
   overflow: hidden;
   position: relative;
   transition: var(--transition);
@@ -546,7 +614,7 @@ header {
 }
 
 .product-img-wrapper {
-  height: 300px;
+  aspect-ratio: 1 / 1;
   background: var(--cream-dark);
   position: relative;
   overflow: hidden;
@@ -749,12 +817,110 @@ header {
 }
 
 @media (max-width: 768px) {
+  :root {
+    --radius-dynamic: 16px;
+    --radius-dynamic-xl: 20px;
+    --section-py: 2rem;
+  }
+  
   .hero-content h1 {
     font-size: 2.5rem;
   }
   
   header {
     padding: 1rem 5%;
+    position: relative;
+    /* Reset from previous if needed */
+  }
+
+  .desktop-nav {
+    display: none !important;
+  }
+
+  .desktop-logo {
+    display: none !important;
+  }
+
+  .mobile-logo {
+    display: block !important;
+  }
+
+  .mobile-nav-toggle {
+    display: flex !important;
+    margin-right: auto;
+    z-index: 101; /* Keep it above absolute logo */
+  }
+
+  .logo-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+  }
+
+  .hero-mascot {
+    display: none !important;
+  }
+
+  .hero-content {
+    display: none !important;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-small-title {
+    font-size: 2rem !important;
+  }
+
+  /* Enhanced Sorting for Mobile */
+  .section-header {
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .sort-container {
+    background: var(--blue-bg);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    gap: 0.5rem;
+  }
+
+  .sort-label {
+    display: none;
+  }
+
+  .sort-select {
+    color: var(--cobalt);
+    font-size: 0.95rem;
+  }
+
+  .nav-actions {
+    margin-left: auto;
+    gap: 1rem;
+    z-index: 101; /* Keep it above absolute logo */
+  }
+
+  .logo-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Hamburger & Cart Icon specific constraints */
+  .nav-actions button, .cart-icon-btn, .mobile-nav-toggle {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cart-icon-btn {
+    width: 44px;
+    height: 44px;
   }
   
   .search-bar {
@@ -764,6 +930,23 @@ header {
   .cart-drawer {
     width: 100%;
     right: -100%;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem;
+  }
+
+  .product-info {
+    padding: 1rem;
+  }
+
+  .product-name {
+    font-size: 0.95rem;
+  }
+
+  .product-price {
+    font-size: 1rem;
   }
 }
 
@@ -793,7 +976,7 @@ header {
   width: 100%;
   max-width: 1100px;
   max-height: 90vh;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-dynamic-xl);
   display: grid;
   grid-template-columns: 1fr 1fr;
   overflow: hidden;

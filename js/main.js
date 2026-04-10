@@ -48,14 +48,43 @@ let pastOrders = JSON.parse(localStorage.getItem('lk_pastOrders')) || [];
 function updateNavState() {
   const loginBtn = document.getElementById('navLoginBtn');
   const profileMenu = document.getElementById('navProfileMenu');
+  
+  // Mobile nav elements
+  const mobileLogin = document.getElementById('mobileNavLogin');
+  const mobileOrders = document.getElementById('mobileNavOrders');
+  const mobileLogout = document.getElementById('mobileNavLogout');
+  
   if(currentUser) {
     if(loginBtn) loginBtn.style.display = 'none';
     if(profileMenu) profileMenu.style.display = 'block';
+    
+    if(mobileLogin) mobileLogin.style.display = 'none';
+    if(mobileOrders) mobileOrders.style.display = 'block';
+    if(mobileLogout) mobileLogout.style.display = 'block';
   } else {
     if(loginBtn) loginBtn.style.display = 'block';
     if(profileMenu) profileMenu.style.display = 'none';
+    
+    if(mobileLogin) mobileLogin.style.display = 'block';
+    if(mobileOrders) mobileOrders.style.display = 'none';
+    if(mobileLogout) mobileLogout.style.display = 'none';
   }
 }
+
+// Mobile Menu toggles
+window.toggleMobileMenu = function() {
+  const menu = document.getElementById('mobileMenuDrawer');
+  const overlay = document.getElementById('mobileMenuOverlay');
+  if (menu) menu.classList.toggle('active');
+  if (overlay) overlay.classList.toggle('active');
+};
+
+window.closeMobileMenu = function() {
+  const menu = document.getElementById('mobileMenuDrawer');
+  const overlay = document.getElementById('mobileMenuOverlay');
+  if (menu) menu.classList.remove('active');
+  if (overlay) overlay.classList.remove('active');
+};
 
 document.addEventListener('DOMContentLoaded', () => {
   renderProducts(PRODUCTS);
