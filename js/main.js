@@ -176,15 +176,9 @@ function renderProducts(items) {
         <div class="product-name">${product.name}</div>
         <div class="product-bottom">
           <div class="product-price">₹${product.price.toLocaleString('en-IN')}</div>
-          <div class="product-rating-mob mobile-only">
-             <span class="star">★</span> ${product.rating}
-          </div>
-          <div class="product-rating desktop-only">
+          <div class="product-rating">
             <span class="star">★</span> ${product.rating}
           </div>
-          <button class="add-to-cart-mob" onclick="event.stopPropagation(); triggerAddAnimation(this, ${product.id})">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color: white;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          </button>
         </div>
       </div>
     </div>
