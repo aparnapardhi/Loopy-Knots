@@ -920,6 +920,14 @@ header {
     padding-bottom: 0 !important;
   }
 
+  .hero-content {
+    display: none !important;
+  }
+
+  .hero-mascot {
+    display: none !important;
+  }
+
   .mascot-container {
     margin-top: 0 !important;
     margin-bottom: 1rem !important;
