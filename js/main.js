@@ -251,11 +251,21 @@ window.toggleCareItem = function(id) {
   item.classList.toggle('active');
 };
 
+let pendingCheckout = false;
+
 window.openCheckout = function() {
   if (cart.length === 0) {
     alert("Your cart is empty!");
     return;
   }
+
+  // Mandatory Login Check
+  if (!currentUser) {
+    pendingCheckout = true;
+    openLoginModal("Login to Checkout");
+    return;
+  }
+
   document.getElementById('cartDrawer').classList.remove('active');
   document.getElementById('drawerOverlay').classList.remove('active');
   
@@ -507,10 +517,14 @@ window.updateTaxType = function() {
   if (rt) rt.textContent = `₹${subtotal + gstTotal}`;
 };
 
-// Update nextStep to trigger tax calculation on review step
+// Update nextStep to trigger tax calculation on review step and preselect UPI
 const originalNextStep = window.nextStep;
 window.nextStep = function(step) {
   originalNextStep(step);
+  if (step === 2) {
+    const upiContainer = document.getElementById('upiOptionContainer');
+    if (upiContainer) selectPayment('upi', upiContainer);
+  }
   if (step === 3) {
     window.updateTaxType();
   }
@@ -561,50 +575,92 @@ window.mockPincodeLookup = function(pin) {
   }
 };
 
-/* --- OTP Auth Login Mocks --- */
+/* --- Simple Phone-Based Login Logic --- */
 
-window.openLoginModal = function() {
+window.openLoginModal = function(customTitle = "Welcome back!") {
+  const titleEl = document.getElementById('loginModalTitle');
+  if (titleEl) titleEl.textContent = customTitle;
   document.getElementById('loginModal').classList.add('active');
 };
 window.closeLoginModal = function() {
   document.getElementById('loginModal').classList.remove('active');
   resetLogin();
+  pendingCheckout = false; // Reset if closed manually
 };
+
 window.sendOTP = function() {
   const phone = document.getElementById('phoneNumber').value;
   if(phone.length < 10) { alert('Enter valid 10-digit phone number'); return; }
-  document.getElementById('phoneStep').style.display = 'none';
-  document.getElementById('displayPhone').textContent = "+91 " + phone;
-  document.getElementById('otpStep').style.display = 'block';
-  setTimeout(() => { document.getElementById('otp1').focus(); }, 100);
-};
-window.moveToNextState = function(current, nextFieldID) {
-  if (current.value.length >= current.maxLength) {
-    document.getElementById(nextFieldID).focus();
-  }
-};
-window.verifyOTP = function() {
-  const phone = document.getElementById('phoneNumber').value;
-  alert('Successfully Logged In! Welcome to Loopy Knots.');
-  closeLoginModal();
+  
+  // Direct Login (No OTP required for simplicity)
   currentUser = { phone: phone };
   localStorage.setItem('lk_currentUser', JSON.stringify(currentUser));
+  
+  showToast('Welcome!', `Logged in successfully as +91 ${phone}`);
+  closeLoginModal();
   updateNavState();
+
+  // Resume Checkout if pending
+  if (pendingCheckout) {
+    pendingCheckout = false;
+    setTimeout(() => { openCheckout(); }, 500);
+  }
+};
+
+window.verifyOTP = function() {
+  // Deprecated in simple login
 };
 
 window.logoutUser = function() {
-  currentUser = null;
-  localStorage.removeItem('lk_currentUser');
-  updateNavState();
+  if (confirm('Are you sure you want to logout?')) {
+    currentUser = null;
+    localStorage.removeItem('lk_currentUser');
+    updateNavState();
+    showToast('Logged Out', 'Successfully logged out of your account.');
+  }
 };
+
+function showToast(title, message) {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML = `
+    <div class="toast-icon"><i data-lucide="message-square"></i></div>
+    <div class="toast-content">
+      <h4>${title}</h4>
+      <p>${message}</p>
+    </div>
+  `;
+  container.appendChild(toast);
+  
+  if (window.lucide) window.lucide.createIcons();
+
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(100%)';
+    toast.style.transition = 'all 0.5s ease';
+    setTimeout(() => toast.remove(), 500);
+  }, 6000);
+}
 
 window.openOrdersModal = function() {
   document.getElementById('ordersModal').classList.add('active');
   const container = document.getElementById('ordersContainer');
-  if(pastOrders.length === 0) {
-    container.innerHTML = '<p style="color: #666;">No past orders found.</p>';
+  
+  if (!currentUser) {
+    container.innerHTML = '<p style="color: #666;">Please login to see your orders.</p>';
+    return;
+  }
+
+  // Filter orders by current user's phone
+  const userOrders = pastOrders.filter(o => o.userPhone === currentUser.phone);
+
+  if(userOrders.length === 0) {
+    container.innerHTML = '<p style="color: #666;">No past orders found for your number.</p>';
   } else {
-    container.innerHTML = pastOrders.map(o => `
+    container.innerHTML = userOrders.map(o => `
       <div style="border: 1px solid #EEE; padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
           <strong style="color: var(--cobalt);">Order ${o.id}</strong>
@@ -626,8 +682,6 @@ window.closeOrdersModal = function() {
   document.getElementById('ordersModal').classList.remove('active');
 };
 window.resetLogin = function() {
-  document.getElementById('otpStep').style.display = 'none';
-  document.getElementById('phoneStep').style.display = 'block';
   document.getElementById('phoneNumber').value = '';
 };
 
@@ -649,13 +703,15 @@ window.confirmPayment = function() {
     document.getElementById('successOrderId').textContent = randomId;
     const finalTotal = document.getElementById('reviewTotal').textContent;
 
-    // Save to Orders
+    // Save to Orders (Tagged with user phone)
+    const userPhone = currentUser ? currentUser.phone : 'Guest';
     const newOrder = {
       id: '#LK-' + randomId,
       date: new Date().toLocaleDateString(),
       total: finalTotal,
       items: cart.map(item => `${item.quantity}x ${item.name}`),
-      status: 'Processing'
+      status: 'Processing',
+      userPhone: userPhone
     };
     pastOrders.unshift(newOrder); // Add to beginning
     localStorage.setItem('lk_pastOrders', JSON.stringify(pastOrders));
@@ -694,4 +750,54 @@ window.closeSuccess = function() {
   if(sectionHeader) sectionHeader.style.display = 'flex';
   if(shopContainer) shopContainer.style.display = 'flex';
   window.scrollTo(0, 0);
+};
+
+window.selectPayment = function(type, element) {
+  document.querySelectorAll('#paymentForm > div.payment-option').forEach(el => {
+    el.style.backgroundColor = 'var(--cream-dark)';
+    el.style.borderColor = 'transparent';
+  });
+  
+  element.style.backgroundColor = 'white';
+  element.style.borderColor = 'var(--cobalt)';
+  
+  const upiContainer = document.getElementById('upiContainer');
+  if (type === 'upi') {
+    upiContainer.style.display = 'flex';
+    generateUPIPayment();
+  } else {
+    upiContainer.style.display = 'none';
+  }
+};
+
+window.generateUPIPayment = function() {
+  const subtotalBeforeDiscount = cart.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
+  const discountAmount = Math.round(subtotalBeforeDiscount * (discountPercent / 100));
+  const subtotal = subtotalBeforeDiscount - discountAmount;
+  const gst = Math.round(subtotal * 0.18);
+  const total = subtotal + gst;
+  
+  const upiId = 'aparnapardhi04-1@okhdfcbank';
+  const payeeName = encodeURIComponent('Aparna Pardhi');
+  const amount = total.toFixed(2);
+  const transactionNote = encodeURIComponent('Loopy Knots Order');
+  
+  const upiString = `upi://pay?pa=${upiId}&pn=${payeeName}&am=${amount}&cu=INR&tn=${transactionNote}`;
+  
+  document.getElementById('upiAmountLabel').textContent = `Amount to Pay: ₹${total.toLocaleString('en-IN')}`;
+  
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiString)}`;
+  document.getElementById('upiQrCode').src = qrUrl;
+  
+  if (window.innerWidth <= 768) {
+    document.getElementById('upiQrCode').style.display = 'none';
+    const payLink = document.getElementById('upiPayLink');
+    payLink.style.display = 'flex';
+    payLink.style.justifyContent = 'center';
+    payLink.style.alignItems = 'center';
+    payLink.href = upiString;
+  } else {
+    document.getElementById('upiQrCode').style.display = 'block';
+    document.getElementById('upiPayLink').style.display = 'none';
+  }
 };

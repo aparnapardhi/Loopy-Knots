@@ -283,28 +283,34 @@
          </div>
 
          <div id="paymentForm" style="display: none;">
-           <div style="background: white; border: 2px solid var(--cobalt); padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem; cursor: pointer;" onclick="document.querySelectorAll('#paymentForm > div.payment-option').forEach(el=>el.style.borderColor='transparent'); this.style.borderColor='var(--cobalt)';">
-             <div style="display: flex; justify-content: space-between; align-items: center;">
-               <strong style="color: var(--cobalt);">Pay via UPI</strong>
-               <i data-lucide="smartphone" size="24" style="color: var(--cobalt);"></i>
-             </div>
-           </div>
-           <div class="payment-option" style="background: var(--cream-dark); border: 2px solid transparent; padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem; cursor: pointer;" onclick="document.querySelectorAll('#paymentForm > div').forEach(el=>el.style.borderColor='transparent'); this.style.borderColor='var(--cobalt)';">
-             <div style="display: flex; justify-content: space-between; align-items: center;">
-               <strong>Credit / Debit Card</strong>
-               <i data-lucide="credit-card" size="24"></i>
-             </div>
-           </div>
-           <div class="payment-option" style="background: var(--cream-dark); border: 2px solid transparent; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; cursor: pointer;" onclick="document.querySelectorAll('#paymentForm > div').forEach(el=>el.style.borderColor='transparent'); this.style.borderColor='var(--cobalt)';">
-             <div style="display: flex; justify-content: space-between; align-items: center;">
-               <strong>NetBanking</strong>
-               <i data-lucide="landmark" size="24"></i>
-             </div>
-           </div>
-           <div style="text-align: center; margin-bottom: 1.5rem;">
-             <small style="color: #666;"><i data-lucide="lock" size="14" style="vertical-align: middle;"></i> Secured by Razorpay</small>
-           </div>
-         </div>
+            <div class="payment-option" id="upiOptionContainer" style="background: white; border: 2px solid var(--cobalt); padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem; cursor: pointer;" onclick="selectPayment('upi', this)">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <strong style="color: var(--cobalt);">Pay via UPI</strong>
+                <i data-lucide="smartphone" size="24" style="color: var(--cobalt);"></i>
+              </div>
+              <div id="upiContainer" style="margin-top: 1.5rem; display: none; flex-direction: column; align-items: center; text-align: center;">
+                 <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">Scan with any UPI app</p>
+                 <img id="upiQrCode" src="" alt="UPI QR Code" style="width: 200px; height: 200px; border-radius: 12px; border: 1px solid #DDD; padding: 10px; background: white; margin-bottom: 1rem;">
+                 <p style="font-size: 1rem; font-weight: 700; color: var(--cobalt); margin-bottom: 1rem;" id="upiAmountLabel">₹0</p>
+                 <a id="upiPayLink" href="#" class="btn btn-primary" style="display: none; width: 100%; border-radius: var(--radius-xl); padding: 1rem; margin-bottom: 0.5rem; text-decoration: none;">Pay Now with UPI App</a>
+              </div>
+            </div>
+            <div class="payment-option" style="background: var(--cream-dark); border: 2px solid transparent; padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem; cursor: pointer;" onclick="selectPayment('card', this)">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <strong>Credit / Debit Card</strong>
+                <i data-lucide="credit-card" size="24"></i>
+              </div>
+            </div>
+            <div class="payment-option" style="background: var(--cream-dark); border: 2px solid transparent; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; cursor: pointer;" onclick="selectPayment('netbanking', this)">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <strong>NetBanking</strong>
+                <i data-lucide="landmark" size="24"></i>
+              </div>
+            </div>
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+              <small style="color: #666;"><i data-lucide="lock" size="14" style="vertical-align: middle;"></i> Secured by Razorpay</small>
+            </div>
+          </div>
 
          <div id="reviewForm" style="display: none; text-align: left;">
             <h3 style="margin-bottom: 1rem;">Final Review</h3>
@@ -400,34 +406,24 @@
     <i data-lucide="message-circle" size="30"></i>
   </a>
 
-  <!-- OTP Login Modal -->
+  <!-- Simple Login Modal -->
   <div class="product-modal" id="loginModal">
     <div class="modal-content" style="max-width: 400px; display: block; padding: 3rem; text-align: center; position: relative;">
       <button class="close-drawer" style="position: absolute; top: 20px; right: 20px; z-index: 100;" onclick="closeLoginModal()">&times;</button>
-      <h3 style="font-size: 1.8rem; color: var(--cobalt); margin-bottom: 0.5rem;">Welcome Back!</h3>
-      <p style="color: #666; margin-bottom: 2rem;">Enter your phone number to login or sign up.</p>
+      <h3 style="font-size: 1.8rem; color: var(--cobalt); margin-bottom: 0.5rem;" id="loginModalTitle">Welcome back!</h3>
+      <p style="color: #666; margin-bottom: 2rem;">Log in to track your orders and enjoy a faster checkout.</p>
       
       <div id="phoneStep">
         <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
           <input type="text" value="+91" readonly style="width: 60px; text-align: center; border: 1px solid #DDD; border-radius: var(--radius-sm); font-weight: 700; background: var(--cream);">
-          <input type="tel" id="phoneNumber" placeholder="9876543210" style="flex: 1; padding: 1rem; border: 1px solid #DDD; border-radius: var(--radius-sm); font-size: 1.1rem; letter-spacing: 2px;">
+          <input type="tel" id="phoneNumber" placeholder="9876543210" style="flex: 1; padding: 1rem; border: 1px solid #DDD; border-radius: var(--radius-sm); font-size: 1.1rem; letter-spacing: 1px;">
         </div>
-        <button class="btn btn-primary" style="width: 100%;" onclick="sendOTP()">Send OTP</button>
-      </div>
-
-      <div id="otpStep" style="display: none;">
-        <p style="font-size: 0.9rem; color: #888;">OTP sent to <span id="displayPhone" style="font-weight: 700; color: var(--charcoal);"></span></p>
-        <div class="otp-input-group">
-          <input type="text" maxlength="1" oninput="moveToNextState(this, 'otp2')" id="otp1">
-          <input type="text" id="otp2" maxlength="1" oninput="moveToNextState(this, 'otp3')">
-          <input type="text" id="otp3" maxlength="1" oninput="moveToNextState(this, 'otp4')">
-          <input type="text" id="otp4" maxlength="1">
-        </div>
-        <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="verifyOTP()">Verify & Login</button>
-        <button style="margin-top: 1rem; background: none; color: var(--cobalt); font-weight: 600;" onclick="resetLogin()">Edit Number</button>
+        <button class="btn btn-primary" style="width: 100%;" onclick="sendOTP()">Log in</button>
       </div>
     </div>
   </div>
+
+  <div id="toastContainer" class="toast-container"></div>
 
   <script src="js/waves.js"></script>
   <script src="js/slider.js"></script>
