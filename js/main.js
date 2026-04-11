@@ -398,6 +398,8 @@ function addToCart(id, variant = null) {
     cartBtn.classList.add('shake');
     setTimeout(() => cartBtn.classList.remove('shake'), 500);
   }
+
+  showToast('Added to Cart', `${product.name} (Qty: ${qtyToAdd}) was added to your cart.`);
 }
 
 window.nextStep = function(step) {
