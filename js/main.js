@@ -352,6 +352,30 @@ window.openCheckout = function() {
   
   document.getElementById('checkoutPage').style.display = 'flex';
   window.scrollTo(0, 0);
+
+  // Check for previous address
+  const savedAddress = localStorage.getItem('lk_pastAddress');
+  if (savedAddress) {
+    document.getElementById('prevAddressContainer').style.display = 'block';
+  }
+};
+
+window.fillPreviousAddress = function() {
+  const savedAddressStr = localStorage.getItem('lk_pastAddress');
+  if (savedAddressStr) {
+    try {
+       const addr = JSON.parse(savedAddressStr);
+       if (addr.fullName) document.getElementById('fullNameInput').value = addr.fullName;
+       if (addr.pincode) {
+           document.getElementById('pincodeInput').value = addr.pincode;
+           window.mockPincodeLookup(addr.pincode);
+       }
+       if (addr.address1) document.getElementById('address1Input').value = addr.address1;
+       if (addr.address2) document.getElementById('address2Input').value = addr.address2;
+       
+       showToast("Address Loaded", "Your previous address has been filled in.");
+    } catch(e) { }
+  }
 };
 
 window.closeCheckout = function() {
@@ -426,6 +450,22 @@ window.nextStep = function(step) {
     if(mascot) mascot.style.left = '0%';
     if(btn1) btn1.style.display = 'block';
   } else if(step === 2) {
+    // Save address if going to step 2
+    const fullName = document.getElementById('fullNameInput');
+    const pincode = document.getElementById('pincodeInput');
+    const address1 = document.getElementById('address1Input');
+    const address2 = document.getElementById('address2Input');
+    const saveCheck = document.getElementById('saveAddress');
+    
+    if (saveCheck && saveCheck.checked && fullName && pincode) {
+        localStorage.setItem('lk_pastAddress', JSON.stringify({
+           fullName: fullName.value,
+           pincode: pincode.value,
+           address1: address1 ? address1.value : '',
+           address2: address2 ? address2.value : ''
+        }));
+    }
+  
     document.getElementById('paymentForm').style.display = 'block';
     document.getElementById('step2').classList.add('active');
     if(mascot) mascot.style.left = '45%';
@@ -660,7 +700,7 @@ window.mockPincodeLookup = function(pin) {
        "2": ["Lucknow", "Uttar Pradesh"],
        "3": ["Jaipur", "Rajasthan"],
        "4": ["Mumbai", "Maharashtra"],
-       "5": ["Hyderabad", "Telangana"],
+       "5": ["Bangalore", "Karnataka"],
        "6": ["Chennai", "Tamil Nadu"],
        "7": ["Kolkata", "West Bengal"],
        "8": ["Patna", "Bihar"]

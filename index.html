@@ -326,9 +326,13 @@
        <div style="max-width: 600px; margin: 0 auto; background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
          
          <div id="shippingForm">
+           <div id="prevAddressContainer" style="display: none; background: var(--blue-bg); padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; text-align: center;">
+             <p style="font-size: 0.9rem; color: var(--charcoal); margin-bottom: 0.5rem;">We found a previously saved address.</p>
+             <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem; border-radius: var(--radius-sm);" onclick="fillPreviousAddress()">Use Previous Address</button>
+           </div>
            <div class="form-group" style="margin-bottom: 1.5rem;">
              <label style="display: block; margin-bottom: 0.5rem; font-weight: 700;">Full Name</label>
-             <input type="text" style="width: 100%; padding: 1rem; border: 1px solid #DDD; border-radius: 12px;" placeholder="John Doe">
+             <input type="text" id="fullNameInput" style="width: 100%; padding: 1rem; border: 1px solid #DDD; border-radius: 12px;" placeholder="John Doe">
            </div>
            <div class="form-group" style="margin-bottom: 1.5rem;">
              <label style="display: block; margin-bottom: 0.5rem; font-weight: 700;">Pincode</label>
@@ -346,11 +350,11 @@
            </div>
            <div class="form-group" style="margin-bottom: 1.5rem;">
              <label style="display: block; margin-bottom: 0.5rem; font-weight: 700;">House/Flat No. & Building</label>
-             <input type="text" style="width: 100%; padding: 1rem; border: 1px solid #DDD; border-radius: 12px;" placeholder="Flat 12A, Yarn Towers">
+             <input type="text" id="address1Input" style="width: 100%; padding: 1rem; border: 1px solid #DDD; border-radius: 12px;" placeholder="Flat 12A, Yarn Towers">
            </div>
            <div class="form-group" style="margin-bottom: 1.5rem;">
              <label style="display: block; margin-bottom: 0.5rem; font-weight: 700;">Area & Landmark</label>
-             <input type="text" style="width: 100%; padding: 1rem; border: 1px solid #DDD; border-radius: 12px;" placeholder="Near Blue Stitch Park">
+             <input type="text" id="address2Input" style="width: 100%; padding: 1rem; border: 1px solid #DDD; border-radius: 12px;" placeholder="Near Blue Stitch Park">
            </div>
            <div class="form-group" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
              <input type="checkbox" id="saveAddress" checked style="accent-color: var(--cobalt); width: 1.2rem; height: 1.2rem;">
@@ -363,7 +367,7 @@
            </div>
          </div>
 
-         <div id="paymentForm" style="display: none;">
+          <div id="paymentForm" style="display: none;">
             <div class="payment-option" id="upiOptionContainer" style="background: white; border: 2px solid var(--cobalt); padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem; cursor: pointer;" onclick="selectPayment('upi', this)">
               <div style="display: flex; justify-content: space-between; align-items: center;">
                 <strong style="color: var(--cobalt);">Pay via UPI</strong>
@@ -373,23 +377,12 @@
                  <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">Scan with any UPI app</p>
                  <img id="upiQrCode" src="" alt="UPI QR Code" style="width: 200px; height: 200px; border-radius: 12px; border: 1px solid #DDD; padding: 10px; background: white; margin-bottom: 1rem;">
                  <p style="font-size: 1rem; font-weight: 700; color: var(--cobalt); margin-bottom: 1rem;" id="upiAmountLabel">₹0</p>
-                 <a id="upiPayLink" href="#" class="btn btn-primary" style="display: none; width: 100%; border-radius: var(--radius-xl); padding: 1rem; margin-bottom: 0.5rem; text-decoration: none;">Pay Now with UPI App</a>
-              </div>
-            </div>
-            <div class="payment-option" style="background: var(--cream-dark); border: 2px solid transparent; padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem; cursor: pointer;" onclick="selectPayment('card', this)">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <strong>Credit / Debit Card</strong>
-                <i data-lucide="credit-card" size="24"></i>
-              </div>
-            </div>
-            <div class="payment-option" style="background: var(--cream-dark); border: 2px solid transparent; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; cursor: pointer;" onclick="selectPayment('netbanking', this)">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <strong>NetBanking</strong>
-                <i data-lucide="landmark" size="24"></i>
+                 <a id="upiPayLink" href="upi://pay?pa=loopyknots@okicici&pn=LoopyKnots&cu=INR" class="btn btn-primary" style="display: none; width: 100%; border-radius: var(--radius-xl); padding: 1rem; margin-bottom: 0.5rem; text-decoration: none;" onclick="this.textContent='Payment Initiated...'">Pay Now with UPI App</a>
+                 <small style="color: #666; margin-top: 0.5rem;">Redirects to GPay, PhonePe, Cred, etc.</small>
               </div>
             </div>
             <div style="text-align: center; margin-bottom: 1.5rem;">
-              <small style="color: #666;"><i data-lucide="lock" size="14" style="vertical-align: middle;"></i> Secured by Razorpay</small>
+              <small style="color: #666;"><i data-lucide="shield-check" size="14" style="vertical-align: middle;"></i> Secured Payment</small>
             </div>
           </div>
 
@@ -430,7 +423,7 @@
        <div style="max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
           <button class="btn btn-primary" id="btn-step1" style="width: 100%; border-radius: var(--radius-xl); font-size: 1.1rem; padding: 1rem;" onclick="nextStep(2)">Continue to Payment</button>
           <button class="btn btn-primary" id="btn-step2" style="width: 100%; border-radius: var(--radius-xl); font-size: 1.1rem; padding: 1rem; display: none;" onclick="nextStep(3)">Review Order</button>
-          <button class="btn btn-primary" id="btn-step3" style="width: 100%; border-radius: var(--radius-xl); font-size: 1.1rem; padding: 1rem; display: none; align-items: center; justify-content: center;" onclick="confirmPayment()">Confirm & Pay</button>
+          <button class="btn btn-primary" id="btn-step3" style="width: 100%; border-radius: var(--radius-xl); font-size: 1.1rem; padding: 1rem; display: none; align-items: center; justify-content: center;" onclick="confirmPayment()">Place Order</button>
           <button style="background: none; color: var(--charcoal-light); border: none; font-size: 1rem; text-decoration: underline; cursor: pointer; padding: 0.5rem;" onclick="closeCheckout()">Cancel & Return to Shop</button>
        </div>
     </div>
