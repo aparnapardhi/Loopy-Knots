@@ -1019,6 +1019,17 @@ header {
     padding: 0 0 2rem 0;
   }
 
+  .checkout-step {
+    padding: 0.4rem 0.6rem !important;
+    font-size: 0.7rem !important;
+    text-align: center;
+  }
+  
+  .checkout-steps {
+    gap: 0.2rem !important;
+    justify-content: space-between !important;
+  }
+
   .product-card {
     display: flex;
     flex-direction: column;

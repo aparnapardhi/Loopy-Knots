@@ -378,7 +378,7 @@
                  <img id="upiQrCode" src="" alt="UPI QR Code" style="width: 200px; height: 200px; border-radius: 12px; border: 1px solid #DDD; padding: 10px; background: white; margin-bottom: 1rem;">
                  <p style="font-size: 1rem; font-weight: 700; color: var(--cobalt); margin-bottom: 1rem;" id="upiAmountLabel">₹0</p>
                  <a id="upiPayLink" href="upi://pay?pa=loopyknots@okicici&pn=LoopyKnots&cu=INR" class="btn btn-primary" style="display: none; width: 100%; border-radius: var(--radius-xl); padding: 1rem; margin-bottom: 0.5rem; text-decoration: none;" onclick="this.textContent='Payment Initiated...'">Pay Now with UPI App</a>
-                 <small style="color: #666; margin-top: 0.5rem;">Redirects to GPay, PhonePe, Cred, etc.</small>
+                 <small style="color: #666; margin-top: 0.5rem;">Choose any standard UPI app on your device.</small>
               </div>
             </div>
             <div style="text-align: center; margin-bottom: 1.5rem;">
@@ -422,7 +422,7 @@
     <div style="flex-shrink: 0; padding: 1.5rem 5%; background: white; border-top: 1px solid #EEE; box-shadow: 0 -4px 15px rgba(0,0,0,0.05);">
        <div style="max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
           <button class="btn btn-primary" id="btn-step1" style="width: 100%; border-radius: var(--radius-xl); font-size: 1.1rem; padding: 1rem;" onclick="nextStep(2)">Continue to Payment</button>
-          <button class="btn btn-primary" id="btn-step2" style="width: 100%; border-radius: var(--radius-xl); font-size: 1.1rem; padding: 1rem; display: none;" onclick="nextStep(3)">Review Order</button>
+          <button class="btn btn-primary" id="btn-step2" style="width: 100%; border-radius: var(--radius-xl); font-size: 1.1rem; padding: 1rem; display: none;" onclick="nextStep(3)">I have completed payment</button>
           <button class="btn btn-primary" id="btn-step3" style="width: 100%; border-radius: var(--radius-xl); font-size: 1.1rem; padding: 1rem; display: none; align-items: center; justify-content: center;" onclick="confirmPayment()">Place Order</button>
           <button style="background: none; color: var(--charcoal-light); border: none; font-size: 1rem; text-decoration: underline; cursor: pointer; padding: 0.5rem;" onclick="closeCheckout()">Cancel & Return to Shop</button>
        </div>
