@@ -235,13 +235,50 @@ window.openProductModal = function(id) {
   const modalQty = document.getElementById('modalQty');
   if (modalQty) modalQty.value = 1;
   
-  const modalImg = document.getElementById('modalImage');
-  if (modalImg) {
-    if (product.image) {
-      modalImg.src = product.image;
-      modalImg.style.display = 'block';
+  const sliderContainer = document.getElementById('modalImageSlider');
+  const dotsContainer = document.getElementById('modalImageDots');
+  
+  if (sliderContainer && dotsContainer) {
+    sliderContainer.innerHTML = '';
+    dotsContainer.innerHTML = '';
+    
+    // Use product.images if available, else duplicate product.image for demo purposes
+    let images = product.images || [];
+    if (images.length === 0 && product.image) {
+      images = [product.image, product.image, product.image]; // Mocking 3 images
+    } else if (images.length === 0 && product.asset) {
+       // if it's an SVG asset, we don't paginate for now, or just show the SVG
+    }
+    
+    if (images.length > 0) {
+      images.forEach((imgSrc, idx) => {
+        const imgEl = document.createElement('img');
+        imgEl.src = imgSrc;
+        imgEl.style.cssText = "scroll-snap-align: start; flex-shrink: 0; width: 100%; height: 100%; object-fit: contain;";
+        sliderContainer.appendChild(imgEl);
+        
+        const dot = document.createElement('div');
+        dot.className = `slider-dot ${idx === 0 ? 'active' : ''}`;
+        dot.style.cssText = `width: 8px; height: 8px; border-radius: 50%; background: ${idx === 0 ? 'var(--cobalt)' : '#ccc'}; transition: background 0.3s; cursor: pointer;`;
+        
+        dot.onclick = () => {
+          sliderContainer.scrollTo({ left: sliderContainer.clientWidth * idx, behavior: 'smooth' });
+        };
+        dotsContainer.appendChild(dot);
+      });
+      
+      // Update dots on scroll
+      sliderContainer.onscroll = () => {
+        const scrollIndex = Math.round(sliderContainer.scrollLeft / sliderContainer.clientWidth);
+        Array.from(dotsContainer.children).forEach((d, i) => {
+          d.style.background = (i === scrollIndex) ? 'var(--cobalt)' : '#ccc';
+        });
+      };
+      
+      sliderContainer.style.display = 'flex';
     } else {
-      modalImg.style.display = 'none';
+       // Fallback for SVG assets
+       sliderContainer.innerHTML = `<div style="display:flex; align-items:center; justify-content:center; width:100%; height:100%;">${ASSETS[product.asset]}</div>`;
     }
   }
   
