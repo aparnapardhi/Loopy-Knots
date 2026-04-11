@@ -469,7 +469,16 @@ window.nextStep = function(step) {
     document.getElementById('paymentForm').style.display = 'block';
     document.getElementById('step2').classList.add('active');
     if(mascot) mascot.style.left = '45%';
-    if(btn2) btn2.style.display = 'block';
+    
+    // Calculate and show total for payment screen
+    const subtotalBeforeDiscount = cart.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
+    const discountAmount = Math.round(subtotalBeforeDiscount * (discountPercent / 100));
+    const subtotal = subtotalBeforeDiscount - discountAmount;
+    const total = subtotal + Math.round(subtotal * 0.18);
+    const amountLabel = document.getElementById('upiAmountLabel');
+    if (amountLabel) {
+      amountLabel.textContent = `₹${total.toLocaleString('en-IN')}`;
+    }
   } else if(step === 3) {
     document.getElementById('reviewForm').style.display = 'block';
     document.getElementById('step3').classList.add('active');
@@ -908,52 +917,24 @@ window.closeSuccess = function() {
   window.scrollTo(0, 0);
 };
 
-window.selectPayment = function(type, element) {
-  document.querySelectorAll('#paymentForm > div.payment-option').forEach(el => {
-    el.style.backgroundColor = 'var(--cream-dark)';
-    el.style.borderColor = 'transparent';
-  });
-  
-  element.style.backgroundColor = 'white';
-  element.style.borderColor = 'var(--cobalt)';
-  
-  const upiContainer = document.getElementById('upiContainer');
-  if (type === 'upi') {
-    upiContainer.style.display = 'flex';
-    generateUPIPayment();
-  } else {
-    upiContainer.style.display = 'none';
-  }
-};
-
-window.generateUPIPayment = function() {
+window.triggerUPI = function(appId) {
   const subtotalBeforeDiscount = cart.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
   const discountAmount = Math.round(subtotalBeforeDiscount * (discountPercent / 100));
   const subtotal = subtotalBeforeDiscount - discountAmount;
-  const gst = Math.round(subtotal * 0.18);
-  const total = subtotal + gst;
+  const total = subtotal + Math.round(subtotal * 0.18);
   
   const upiId = 'aparnapardhi04-1@okhdfcbank';
   const payeeName = encodeURIComponent('Aparna Pardhi');
-  const amount = total.toFixed(2);
-  const transactionNote = encodeURIComponent('Loopy Knots Order');
+  const transactionNote = encodeURIComponent(`LK-${Date.now()}`);
   
-  const upiString = `upi://pay?pa=${upiId}&pn=${payeeName}&am=${amount}&cu=INR&tn=${transactionNote}`;
+  // Universal Intent
+  const upiString = `upi://pay?pa=${upiId}&pn=${payeeName}&am=${total.toFixed(2)}&cu=INR&tn=${transactionNote}`;
   
-  document.getElementById('upiAmountLabel').textContent = `Amount to Pay: ₹${total.toLocaleString('en-IN')}`;
+  // Launch Intent
+  window.location.href = upiString;
   
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiString)}`;
-  document.getElementById('upiQrCode').src = qrUrl;
-  
-  if (window.innerWidth <= 768) {
-    document.getElementById('upiQrCode').style.display = 'none';
-    const payLink = document.getElementById('upiPayLink');
-    payLink.style.display = 'flex';
-    payLink.style.justifyContent = 'center';
-    payLink.style.alignItems = 'center';
-    payLink.href = upiString;
-  } else {
-    document.getElementById('upiQrCode').style.display = 'block';
-    document.getElementById('upiPayLink').style.display = 'none';
-  }
+  // Transition to Review screen once payment is initiated
+  setTimeout(() => {
+     window.nextStep(3);
+  }, 1000);
 };
