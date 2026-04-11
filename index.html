@@ -276,7 +276,10 @@
                <input type="number" id="modalQty" value="1" min="1" max="10" style="width: 40px; text-align: center; border: none; font-size: 1.1rem; font-weight: 700; background: none;">
                <button style="border: none; background: none; font-size: 1.5rem; cursor: pointer; color: var(--cobalt);" onclick="document.getElementById('modalQty').stepUp()">&plus;</button>
             </div>
-            <button class="btn btn-primary" style="flex: 1;" onclick="addToCart(currentSelectedId); closeProductModal();">Add to Cart</button>
+            <div style="flex: 1; display: flex; gap: 10px; min-width: 200px;">
+              <button class="btn btn-secondary" style="flex: 1; padding: 0.8rem 0.5rem; font-size: 0.9rem;" onclick="addToCart(currentSelectedId); closeProductModal();">Add to Cart</button>
+              <button class="btn btn-primary" style="flex: 1; padding: 0.8rem 0.5rem; font-size: 0.9rem;" onclick="buyNow(currentSelectedId)">Buy Now</button>
+            </div>
           </div>
           <p class="desktop-only" style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: #999;">Free shipping on orders over ₹4,999.</p>
         </div>

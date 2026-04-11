@@ -789,11 +789,17 @@ function showToast(title, message) {
 
   setTimeout(() => {
     toast.style.opacity = '0';
-    toast.style.transform = 'translateX(100%)';
-    toast.style.transition = 'all 0.5s ease';
-    setTimeout(() => toast.remove(), 500);
-  }, 6000);
+    toast.style.transform = 'translateY(-50px)';
+    toast.style.transition = 'all 0.4s ease';
+    setTimeout(() => toast.remove(), 400);
+  }, 2000);
 }
+
+window.buyNow = function(id) {
+  addToCart(id);
+  closeProductModal();
+  openCheckout();
+};
 
 window.openOrdersModal = function() {
   document.getElementById('ordersModal').classList.add('active');

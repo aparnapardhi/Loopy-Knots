@@ -1436,47 +1436,56 @@ header {
   box-shadow: 0 0 0 4px var(--cobalt-light);
 }
 
-/* Toast Notifications (Mock SMS) */
+/* Toast Notifications */
 .toast-container {
   position: fixed;
-  bottom: 100px; /* Above WhatsApp button */
-  right: 30px;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 5000;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
 }
 .toast {
   background: var(--charcoal);
   color: white;
-  padding: 1.2rem 1.5rem;
-  border-radius: var(--radius-md);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  min-width: 300px;
+  padding: 0.8rem 1.2rem;
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  min-width: 250px;
+  max-width: 90vw;
   display: flex;
-  align-items: flex-start;
-  gap: 15px;
-  animation: toastIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  border-left: 4px solid var(--cobalt);
+  align-items: center;
+  gap: 10px;
+  animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 @keyframes toastIn {
-  from { transform: translateX(120%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 .toast-icon {
-  color: var(--cobalt);
-  padding-top: 2px;
+  color: var(--cobalt-light);
+  display: flex;
+  align-items: center;
+}
+.toast-content {
+  flex: 1;
 }
 .toast-content h4 {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   color: var(--white);
+  line-height: 1.2;
 }
 .toast-content p {
-  font-size: 0.85rem;
-  opacity: 0.8;
-  line-height: 1.4;
+  font-size: 0.8rem;
+  opacity: 0.9;
+  line-height: 1.2;
+  margin: 0;
 }
 .otp-highlight {
   font-family: monospace;
