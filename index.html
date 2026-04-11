@@ -370,47 +370,52 @@
            </div>
          </div>
 
-          <div id="paymentForm" style="display: none; text-align: left;">
-            <p style="margin-bottom: 0.5rem; font-size: 0.9rem; color: #666; font-weight: 600;">Amount to Pay:</p>
-            <h3 style="margin-bottom: 1.5rem; color: var(--cobalt); font-size: 1.8rem;" id="upiAmountLabel">₹0</h3>
-            
-            <h4 style="margin-bottom: 1rem; color: var(--charcoal); font-size: 1rem;">Recommended Payments</h4>
-            
-            <div style="background: white; border-radius: 12px; border: 1px solid #DDD; margin-bottom: 1.5rem; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.02);">
-               <div onclick="triggerUPI('cred')" style="display: flex; align-items: center; justify-content: space-between; padding: 1.2rem; border-bottom: 1px solid #EEE; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#F9F9F9'" onmouseout="this.style.background='white'">
-                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <div style="width: 32px; height: 32px; background: #222; color: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: sans-serif;">C</div>
-                    <strong style="font-size: 1rem; color: #333;">CRED UPI</strong>
+            <div class="mobile-only">
+              <h4 style="margin-bottom: 1rem; color: var(--charcoal); font-size: 1rem;">Recommended Payments</h4>
+              <div style="background: white; border-radius: 12px; border: 1px solid #DDD; margin-bottom: 1.5rem; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.02);">
+                 <div onclick="triggerUPI('cred')" style="display: flex; align-items: center; justify-content: space-between; padding: 1.2rem; border-bottom: 1px solid #EEE; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#F9F9F9'" onmouseout="this.style.background='white'">
+                   <div style="display: flex; align-items: center; gap: 15px;">
+                      <div style="width: 32px; height: 32px; background: #222; color: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: sans-serif;">C</div>
+                      <strong style="font-size: 1rem; color: #333;">CRED UPI</strong>
+                   </div>
+                   <i data-lucide="chevron-right" size="20" style="color: #999;"></i>
                  </div>
-                 <i data-lucide="chevron-right" size="20" style="color: #999;"></i>
-               </div>
-               
-               <div onclick="triggerUPI('phonepe')" style="display: flex; align-items: center; justify-content: space-between; padding: 1.2rem; border-bottom: 1px solid #EEE; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#F9F9F9'" onmouseout="this.style.background='white'">
-                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <div style="width: 32px; height: 32px; background: #5f259f; color: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold;">पे</div>
-                    <div style="display: flex; flex-direction: column;">
-                        <strong style="font-size: 1rem; color: #333;">PhonePe UPI</strong>
-                        <span style="font-size: 0.75rem; color: #888; margin-top: 2px;">Fast & Secure</span>
-                    </div>
+                 
+                 <div onclick="triggerUPI('phonepe')" style="display: flex; align-items: center; justify-content: space-between; padding: 1.2rem; border-bottom: 1px solid #EEE; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#F9F9F9'" onmouseout="this.style.background='white'">
+                   <div style="display: flex; align-items: center; gap: 15px;">
+                      <div style="width: 32px; height: 32px; background: #5f259f; color: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold;">पे</div>
+                      <div style="display: flex; flex-direction: column;">
+                          <strong style="font-size: 1rem; color: #333;">PhonePe UPI</strong>
+                          <span style="font-size: 0.75rem; color: #888; margin-top: 2px;">Fast & Secure</span>
+                      </div>
+                   </div>
+                   <i data-lucide="chevron-right" size="20" style="color: #999;"></i>
                  </div>
-                 <i data-lucide="chevron-right" size="20" style="color: #999;"></i>
-               </div>
-               
-               <div onclick="triggerUPI('gpay')" style="display: flex; align-items: center; justify-content: space-between; padding: 1.2rem; border-bottom: 1px solid #EEE; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#F9F9F9'" onmouseout="this.style.background='white'">
-                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <div style="width: 32px; height: 32px; background: white; border: 1px solid #eee; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #4285F4;">G</div>
-                    <strong style="font-size: 1rem; color: #333;">GPay UPI</strong>
+                 
+                 <div onclick="triggerUPI('gpay')" style="display: flex; align-items: center; justify-content: space-between; padding: 1.2rem; border-bottom: 1px solid #EEE; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#F9F9F9'" onmouseout="this.style.background='white'">
+                   <div style="display: flex; align-items: center; gap: 15px;">
+                      <div style="width: 32px; height: 32px; background: white; border: 1px solid #eee; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #4285F4;">G</div>
+                      <strong style="font-size: 1rem; color: #333;">GPay UPI</strong>
+                   </div>
+                   <i data-lucide="chevron-right" size="20" style="color: #999;"></i>
                  </div>
-                 <i data-lucide="chevron-right" size="20" style="color: #999;"></i>
-               </div>
-               
-               <div onclick="triggerUPI('amazon')" style="display: flex; align-items: center; justify-content: space-between; padding: 1.2rem; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#F9F9F9'" onmouseout="this.style.background='white'">
-                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <div style="width: 32px; height: 32px; background: #FF9900; color: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: serif;">a</div>
-                    <strong style="font-size: 1rem; color: #333;">Amazon Pay UPI</strong>
+                 
+                 <div onclick="triggerUPI('amazon')" style="display: flex; align-items: center; justify-content: space-between; padding: 1.2rem; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#F9F9F9'" onmouseout="this.style.background='white'">
+                   <div style="display: flex; align-items: center; gap: 15px;">
+                      <div style="width: 32px; height: 32px; background: #FF9900; color: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: serif;">a</div>
+                      <strong style="font-size: 1rem; color: #333;">Amazon Pay UPI</strong>
+                   </div>
+                   <i data-lucide="chevron-right" size="20" style="color: #999;"></i>
                  </div>
-                 <i data-lucide="chevron-right" size="20" style="color: #999;"></i>
+              </div>
+            </div>
+
+            <div class="desktop-only" style="text-align: center; margin-bottom: 2rem;">
+               <h4 style="margin-bottom: 1rem; color: var(--charcoal); font-size: 1rem;">Scan with any UPI App to Pay</h4>
+               <div style="background: white; padding: 1rem; border-radius: 12px; border: 1px solid #DDD; display: inline-block;">
+                  <img id="desktopPaymentQr" src="" alt="Payment QR Code" style="width: 250px; height: 250px;">
                </div>
+               <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">Once the payment is done, click "I have completed payment" below.</p>
             </div>
             
             <div style="text-align: center; margin-bottom: 1.5rem;">

@@ -479,6 +479,11 @@ window.nextStep = function(step) {
     if (amountLabel) {
       amountLabel.textContent = `₹${total.toLocaleString('en-IN')}`;
     }
+
+    // Show QR only for desktop
+    if (window.innerWidth > 768) {
+      updateDesktopQR(total);
+    }
   } else if(step === 3) {
     document.getElementById('reviewForm').style.display = 'block';
     document.getElementById('step3').classList.add('active');
@@ -918,6 +923,9 @@ window.closeSuccess = function() {
 };
 
 window.triggerUPI = function(appId) {
+  // Only trigger intent on mobile
+  if (window.innerWidth > 768) return;
+
   const subtotalBeforeDiscount = cart.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
   const discountAmount = Math.round(subtotalBeforeDiscount * (discountPercent / 100));
   const subtotal = subtotalBeforeDiscount - discountAmount;
@@ -937,4 +945,17 @@ window.triggerUPI = function(appId) {
   setTimeout(() => {
      window.nextStep(3);
   }, 1000);
+};
+
+window.updateDesktopQR = function(total) {
+  const upiId = 'aparnapardhi04-1@okhdfcbank';
+  const payeeName = encodeURIComponent('Aparna Pardhi');
+  const amount = total.toFixed(2);
+  const transactionNote = encodeURIComponent('Loopy Knots Order');
+  
+  const upiString = `upi://pay?pa=${upiId}&pn=${payeeName}&am=${amount}&cu=INR&tn=${transactionNote}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiString)}`;
+  
+  const qrImg = document.getElementById('desktopPaymentQr');
+  if (qrImg) qrImg.src = qrUrl;
 };
