@@ -609,7 +609,38 @@ window.nextStep = function(step) {
 
 /* --- New IA Utilities --- */
 
-window.filterCategory = function(cat) {
+window.filterCategory = function(cat, element = null) {
+  // Update Active State
+  const pills = document.querySelectorAll('.cat-pill');
+  if (element) {
+    pills.forEach(p => p.classList.remove('active'));
+    element.classList.add('active');
+  } else {
+    // If called without element (legacy), find the one matching the text
+    pills.forEach(p => {
+      const span = p.querySelector('span');
+      if (span && span.textContent === cat) {
+        p.classList.add('active');
+      } else {
+        p.classList.remove('active');
+      }
+    });
+  }
+
+  // Update Section Headers
+  const subTitle = document.getElementById('sectionSubtitle');
+  const mainTitle = document.getElementById('sectionTitle');
+  if (subTitle && mainTitle) {
+    if (cat === 'All') {
+      subTitle.textContent = "Our Collection";
+      mainTitle.textContent = "All Categories";
+    } else {
+      subTitle.textContent = "Our Collection of";
+      mainTitle.textContent = cat;
+    }
+  }
+
+  // Filter Products
   if (cat === 'All') {
     renderProducts(PRODUCTS);
   } else {

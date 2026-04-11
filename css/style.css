@@ -176,7 +176,7 @@ header {
   border-radius: 16px;
   background: var(--blue-bg);
   padding: 4px;
-  border: 2px solid var(--cobalt-light);
+  border: 2px solid transparent;
   overflow: hidden;
   transition: var(--transition);
 }
@@ -189,12 +189,18 @@ header {
 .cat-pill span {
   font-size: 0.8rem;
   font-weight: 700;
-  color: var(--charcoal);
+  color: var(--charcoal-light);
   white-space: nowrap;
+}
+.cat-pill.active .cat-img {
+  border-color: var(--cobalt);
+  box-shadow: 0 4px 12px rgba(26, 83, 255, 0.2);
+}
+.cat-pill.active span {
+  color: var(--cobalt);
 }
 .cat-pill:active .cat-img {
   transform: scale(0.9);
-  border-color: var(--cobalt);
 }
 
 /* --- Global Mobile Elements --- */

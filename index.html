@@ -123,6 +123,10 @@
     
     <!-- Mobile Category Pills/Circles -->
     <div class="mobile-categories-hero">
+      <div class="cat-pill active" onclick="filterCategory('All')">
+        <div class="cat-img" style="background: var(--cobalt-light);"><img src="assets/bg2.jpg" alt="All" onerror="this.style.display='none'"></div>
+        <span>All</span>
+      </div>
       <div class="cat-pill" onclick="filterCategory('Flowers')">
         <div class="cat-img"><img src="assets/categories/flowers.png" alt="Flowers"></div>
         <span>Flowers</span>
@@ -153,8 +157,8 @@
   <!-- Shop Section -->
   <div class="section-header">
     <div class="section-title">
-      <p>Our Collection</p>
-      <h2 class="mobile-small-title">Explore <span class="desktop-only text-loopy">Loopy Knots</span></h2>
+      <p id="sectionSubtitle">Our Collection</p>
+      <h2 class="mobile-small-title" id="sectionTitle">All Categories</h2>
     </div>
     <div class="sort-container">
       <span class="sort-label">Sort by:</span>
@@ -490,12 +494,12 @@
       <h3 style="font-size: 1.8rem; color: var(--cobalt); margin-bottom: 0.5rem;" id="loginModalTitle">Welcome back!</h3>
       <p style="color: #666; margin-bottom: 2rem;">Log in to track your orders and enjoy a faster checkout.</p>
       
-      <div id="phoneStep">
-        <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
-          <input type="text" value="+91" readonly style="width: 60px; text-align: center; border: 1px solid #DDD; border-radius: var(--radius-sm); font-weight: 700; background: var(--cream);">
-          <input type="tel" id="phoneNumber" placeholder="9876543210" style="flex: 1; padding: 1rem; border: 1px solid #DDD; border-radius: var(--radius-sm); font-size: 1.1rem; letter-spacing: 1px;">
+      <div id="phoneStep" style="box-sizing: border-box;">
+        <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; width: 100%; box-sizing: border-box;">
+          <input type="text" value="+91" readonly style="width: 70px; text-align: center; border: 1px solid #DDD; border-radius: var(--radius-sm); font-weight: 700; background: var(--cream); padding: 0; box-sizing: border-box;">
+          <input type="tel" id="phoneNumber" placeholder="9876543210" style="flex: 1; padding: 1rem; border: 1px solid #DDD; border-radius: var(--radius-sm); font-size: 1.1rem; letter-spacing: 1px; min-width: 0; box-sizing: border-box;">
         </div>
-        <button class="btn btn-primary" style="width: 100%;" onclick="sendOTP()">Log in</button>
+        <button class="btn btn-primary" style="width: 100%; box-sizing: border-box;" onclick="sendOTP()">Log in</button>
       </div>
     </div>
   </div>
