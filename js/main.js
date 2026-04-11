@@ -932,7 +932,7 @@ window.triggerUPI = function(appId) {
   const total = subtotal + Math.round(subtotal * 0.18);
   
   const upiId = 'aparnapardhi04-1@okhdfcbank';
-  const payeeName = encodeURIComponent('Aparna Pardhi');
+  const payeeName = encodeURIComponent('Loopy Knots');
   const transactionNote = encodeURIComponent(`LK-${Date.now()}`);
   
   // Universal Intent
@@ -949,7 +949,7 @@ window.triggerUPI = function(appId) {
 
 window.updateDesktopQR = function(total) {
   const upiId = 'aparnapardhi04-1@okhdfcbank';
-  const payeeName = encodeURIComponent('Aparna Pardhi');
+  const payeeName = encodeURIComponent('Loopy Knots');
   const amount = total.toFixed(2);
   const transactionNote = encodeURIComponent('Loopy Knots Order');
   
