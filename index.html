@@ -411,11 +411,27 @@
             </div>
 
             <div class="desktop-only" style="text-align: center; margin-bottom: 2rem;">
-               <h4 style="margin-bottom: 1rem; color: var(--charcoal); font-size: 1rem;">Scan with any UPI App to Pay</h4>
-               <div style="background: white; padding: 1rem; border-radius: 12px; border: 1px solid #DDD; display: inline-block;">
-                  <img id="desktopPaymentQr" src="" alt="Payment QR Code" style="width: 250px; height: 250px;">
+               <div style="background: #F4F7FF; padding: 2.5rem; border-radius: 24px; display: inline-block; box-shadow: 0 8px 32px rgba(0,0,0,0.05); max-width: 400px; width: 100%;">
+                  
+                  <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                      <img src="https://ui-avatars.com/api/?name=Aparna+Pardhi&background=4285F4&color=fff&rounded=true" alt="Aparna Pardhi" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                      <h3 style="font-size: 1.5rem; color: #333; margin: 0;">Aparna Pardhi</h3>
+                  </div>
+
+                  <div style="background: white; padding: 1.5rem; border-radius: 20px; position: relative; display: inline-block; margin-bottom: 1.5rem;">
+                     <img id="desktopPaymentQr" src="" alt="Payment QR Code" style="width: 250px; height: 250px; display: block;">
+                     <!-- GPay Logo Center (Style only, actual QR content must remain scannable) -->
+                     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 4px; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Google_Pay_G_Logo.svg" alt="GPay" style="width: 24px; height: 24px;">
+                     </div>
+                  </div>
+
+                  <div style="margin-top: 0.5rem;">
+                      <p style="font-size: 0.9rem; color: #666; font-weight: 500; margin-bottom: 0.2rem;">UPI ID: <span style="color: #333; font-weight: 600;">aparnapardhi04-1@okhdfcbank</span></p>
+                      <p style="font-size: 0.85rem; color: #888;">Scan to pay with any UPI app</p>
+                  </div>
                </div>
-               <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">Once the payment is done, click "I have completed payment" below.</p>
+               <p style="margin-top: 1.5rem; font-size: 0.9rem; color: #666;">Once the payment is done, click "I have completed payment" below.</p>
             </div>
             
             <div style="text-align: center; margin-bottom: 1.5rem;">
