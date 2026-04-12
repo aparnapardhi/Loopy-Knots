@@ -4,7 +4,7 @@
    Shareable product URLs, Wishlist, Stock enforcement
    ============================================================ */
 
-const IG_HANDLE = 'loopyknots'; // ← Your Instagram username
+const IG_HANDLE = 'loopy__knots'; // ← Your Instagram username
 
 /* --- SVG Fallback Assets --- */
 const ASSETS = {
