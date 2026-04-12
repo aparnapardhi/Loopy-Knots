@@ -3,25 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loopy Knots | Premium Handmade Crochet Store</title>
-  <meta name="description" content="Discover beautifully handcrafted crochet flowers, bouquets, charms, and more at Loopy Knots. Sustainable, premium, and made with love.">
-  
-  <!-- Open Graph / Meta Tags -->
-  <meta property="og:title" content="Loopy Knots | Premium Handmade Crochet Store">
-  <meta property="og:description" content="Discover beautifully handcrafted crochet flowers, bouquets, charms, and more at Loopy Knots. Sustainable, premium, and made with love.">
+  <title>Loopy Knots | Premium Handmade Crochet Catalog</title>
+  <meta name="description" content="Explore beautifully handcrafted crochet flowers, bouquets, charms, tops and more at Loopy Knots. Browse our catalog and inquire via Instagram.">
+  <meta property="og:title" content="Loopy Knots | Handmade Crochet Catalog">
+  <meta property="og:description" content="Explore our premium handcrafted crochet collection. Inquire via Instagram DM.">
   <meta property="og:image" content="assets/logo.jpg">
   <meta property="og:type" content="website">
-
   <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/v2.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
+  <!-- Announcement Bar -->
+  <div class="announcement-bar" id="announcementBar">
+    <span>✨ New Arrivals Just Dropped · Follow us on
+      <a href="https://instagram.com/loopyknots" target="_blank" style="color: white; font-weight: 700; text-decoration: underline;">@loopyknots</a>
+      for daily updates &nbsp;·&nbsp; 🧶 Each piece handcrafted with love
+    </span>
+    <button class="announcement-close" onclick="closeAnnouncement()">×</button>
+  </div>
+
   <!-- Sticky Header -->
-  <header>
-    <!-- Mobile Nav Toggle (Left) -->
+  <header id="mainHeader">
     <button class="mobile-nav-toggle" id="mobileNavBtn" onclick="toggleMobileMenu()" style="display: none; background: transparent; border: none; color: var(--cobalt); padding: 0; cursor: pointer;">
       <i data-lucide="menu" size="28"></i>
     </button>
@@ -49,26 +55,12 @@
             <a href="#" onclick="filterCategory('Phone Charms')">Phone Charms</a>
           </div>
         </div>
-        <a href="#">New Arrivals</a>
-        <a href="#" id="navLoginBtn" onclick="openLoginModal()" style="color: var(--cobalt); font-weight: 700;">Login</a>
-        <div class="dropdown" id="navProfileMenu" style="display: none;">
-          <a href="#" style="color: var(--cobalt); font-weight: 700; display: flex; align-items: center; gap: 5px;">
-            <i data-lucide="user" size="20"></i> <i data-lucide="chevron-down" size="14"></i>
-          </a>
-          <div class="dropdown-content" style="right: 0; left: auto; min-width: 150px; text-align: left;">
-            <a href="#" onclick="openOrdersModal()">My Orders</a>
-            <a href="#" onclick="logoutUser()">Logout</a>
-          </div>
-        </div>
+        <a href="#makeItForMe" onclick="scrollToMakeIt()">Custom Order</a>
+        <a href="https://instagram.com/loopyknots" target="_blank" style="color: var(--cobalt); font-weight: 700; display: flex; align-items: center; gap: 6px;">
+          <i data-lucide="instagram" size="18"></i> @loopyknots
+        </a>
       </nav>
-      
-      <button class="cart-icon-btn" id="cartBtn">
-        <i data-lucide="shopping-bag" size="20"></i>
-        <span class="cart-badge" id="cartBadge">0</span>
-      </button>
     </div>
-  </header>
-
   </header>
 
   <!-- Mobile Menu Drawer -->
@@ -80,7 +72,7 @@
     </div>
     <div class="menu-content" style="display: flex; flex-direction: column; height: calc(100vh - 100px); justify-content: space-between;">
       <div class="menu-top-links" style="display: flex; flex-direction: column; gap: 1.2rem;">
-        <a href="#" onclick="closeMobileMenu()">New Arrivals</a>
+        <a href="#" onclick="scrollToMakeIt(); closeMobileMenu()">✨ Custom Order</a>
         <hr style="margin: 0; border: none; border-top: 1px solid #1A53FF22;">
         <h4 style="color: var(--cobalt); margin: 0; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;">Shop Categories</h4>
         <div class="mobile-categories" style="display: flex; flex-direction: column; gap: 1rem; margin-left: 0.5rem;">
@@ -95,13 +87,14 @@
       </div>
       <div class="menu-bottom-links" style="display: flex; flex-direction: column; gap: 1.2rem; padding-bottom: 2rem;">
         <hr style="margin: 0; border: none; border-top: 1px solid #1A53FF22;">
-        <a href="#" onclick="openLoginModal(); closeMobileMenu()" id="mobileNavLogin">Login</a>
-        <a href="#" onclick="openOrdersModal(); closeMobileMenu()" style="display:none;" id="mobileNavOrders">My Orders</a>
-        <a href="#" onclick="logoutUser(); closeMobileMenu()" style="display:none; color: var(--terracotta);" id="mobileNavLogout">Logout</a>
+        <a href="https://instagram.com/loopyknots" target="_blank" style="display: flex; align-items: center; gap: 10px; color: var(--cobalt); font-weight: 700;">
+          <i data-lucide="instagram" size="20"></i> Follow @loopyknots
+        </a>
       </div>
     </div>
   </div>
 
+  <!-- Hero Section -->
   <section class="hero">
     <div id="waves-container">
       <div class="pointer-dot"></div>
@@ -110,18 +103,18 @@
       <img src="assets/mascot_new.png" alt="Loopy Knots Mascot" class="hero-mascot">
       <div class="hero-label">BY ARTISANS FOR YOU</div>
       <h1 class="hero-title">Stay Loopy.</h1>
-      <p class="hero-subtitle">Premium handcrafted crochet that doesn't take itself too seriously. Playful designs, serious quality.</p>
+      <p class="hero-subtitle">Premium handcrafted crochet that doesn't take itself too seriously. Browse our collection and chat with us on Instagram to order.</p>
+      <a href="https://instagram.com/loopyknots" target="_blank" class="btn btn-primary hero-cta-btn" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; margin-top: 1.5rem; border-radius: var(--radius-xl); padding: 0.9rem 2rem; font-size: 1.05rem;">
+        <i data-lucide="instagram" size="20"></i> Shop on Instagram
+      </a>
     </div>
-
     <div class="mascot-container">
       <div class="scroll-container">
-        <div class="infinite-scroll" id="hero-slider">
-          <!-- Images injected by slider.js logic -->
-        </div>
+        <div class="infinite-scroll" id="hero-slider"></div>
       </div>
     </div>
-    
-    <!-- Mobile Category Pills/Circles -->
+
+    <!-- Mobile Category Pills -->
     <div class="mobile-categories-hero">
       <div class="cat-pill active" onclick="filterCategory('All')">
         <div class="cat-img" style="background: var(--cobalt-light); padding: 6px;"><img src="assets/mascot_new.png" alt="All"></div>
@@ -162,10 +155,10 @@
     </div>
     <div class="sort-container">
       <span class="sort-label">Sort by:</span>
-      <select class="sort-select">
-        <option>Featured</option>
-        <option>Price: Low to High</option>
-        <option>Newest</option>
+      <select class="sort-select" onchange="sortProducts(this.value)">
+        <option value="featured">Featured</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
       </select>
     </div>
   </div>
@@ -175,382 +168,212 @@
       <div class="filter-group">
         <h4>Categories</h4>
         <div class="filter-list">
-          <label class="filter-item"><input type="checkbox" value="Flowers"> Flowers</label>
-          <label class="filter-item"><input type="checkbox" value="Bouquets"> Bouquets</label>
-          <label class="filter-item"><input type="checkbox" value="Bag Charms"> Bag Charms</label>
-          <label class="filter-item"><input type="checkbox" value="Hair Bows"> Hair Bows</label>
-          <label class="filter-item"><input type="checkbox" value="Tops"> Tops</label>
-          <label class="filter-item"><input type="checkbox" value="Phone Charms"> Phone Charms</label>
+          <label class="filter-item"><input type="checkbox" value="Flowers" onchange="filterByCheckbox()"> Flowers</label>
+          <label class="filter-item"><input type="checkbox" value="Bouquets" onchange="filterByCheckbox()"> Bouquets</label>
+          <label class="filter-item"><input type="checkbox" value="Bag Charms" onchange="filterByCheckbox()"> Bag Charms</label>
+          <label class="filter-item"><input type="checkbox" value="Hair Bows" onchange="filterByCheckbox()"> Hair Bows</label>
+          <label class="filter-item"><input type="checkbox" value="Tops" onchange="filterByCheckbox()"> Tops</label>
+          <label class="filter-item"><input type="checkbox" value="Phone Charms" onchange="filterByCheckbox()"> Phone Charms</label>
         </div>
       </div>
       <div class="filter-group">
         <h4>Price Range</h4>
-        <input type="range" min="0" max="100" value="100" style="width: 100%; accent-color: var(--terracotta);">
+        <input type="range" min="0" max="10000" value="10000" id="priceRange" oninput="updatePriceFilter(this.value)" style="width: 100%; accent-color: var(--cobalt);">
         <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-top: 5px;">
           <span>₹0</span>
-          <span>₹10,000+</span>
+          <span id="priceRangeLabel">₹10,000+</span>
         </div>
       </div>
     </aside>
-
     <div class="product-grid" id="productGrid"></div>
   </main>
 
-  <!-- Cart Drawer -->
-  <div class="drawer-overlay" id="drawerOverlay"></div>
-  <div class="cart-drawer" id="cartDrawer">
-    <div class="drawer-header">
-      <h3 style="font-size: 1.5rem;">Shopping Bag</h3>
-      <button class="close-drawer" id="closeCart">&times;</button>
-    </div>
-    <div class="cart-items" id="cartItems"></div>
-    
-    <!-- Free Shipping Progress Bar -->
-    <div style="padding: 1.5rem; background: var(--cream-dark); border-top: 1px solid #EEE;">
-      <div id="shippingMsg" style="font-size: 0.85rem; font-weight: 700; color: var(--cobalt); margin-bottom: 8px;">Add more for FREE shipping!</div>
-      <div style="width: 100%; height: 8px; background: #EEE; border-radius: 4px; overflow: hidden;">
-        <div id="shippingProgress" style="width: 0%; height: 100%; background: var(--cobalt); transition: width 0.5s ease;"></div>
-      </div>
-    </div>
-    <div class="cart-summary">
-      <!-- Discount Code Section -->
-      <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #EEE;">
-        <div style="display: flex; gap: 10px;">
-          <input type="text" id="discountCode" placeholder="Enter code (e.g. LOOPY10)" style="flex: 1; padding: 10px; border: 1px solid #DDD; border-radius: 8px; font-family: inherit;">
-          <button class="btn btn-secondary" onclick="applyDiscount()" style="padding: 10px 20px; border-radius: 8px;">Apply</button>
-        </div>
-        <div id="discountMsg" style="font-size: 0.75rem; margin-top: 5px; font-weight: 600;"></div>
-      </div>
-      <div class="summary-row">
-        <span>Subtotal</span>
-        <span id="subtotal" style="font-weight: 700;">₹0</span>
-      </div>
-      <div class="summary-row" style="color: var(--cobalt); font-size: 0.9rem;">
-        <span>GST (18%)</span>
-        <span id="gstTotal">₹0</span>
-      </div>
-      <div class="summary-row total-row" style="margin-top: 1rem; border-top: 1px solid #eee; padding-top: 1rem;">
-        <span style="font-weight: 800; font-size: 1.2rem;">Total</span>
-        <span id="totalPrice" style="font-weight: 800; font-size: 1.2rem; color: var(--cobalt);">₹0</span>
-      </div>
-      <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; border-radius: var(--radius-xl);" onclick="openCheckout()">Proceed to Checkout</button>
-    </div>
-  </div>
-
-  <!-- Product Modal -->
+  <!-- Product Modal (Lookbook Style) -->
   <div class="product-modal" id="productModal" onclick="if(event.target === this) closeProductModal()">
-    <div class="modal-content">
+    <div class="modal-content modal-lookbook">
       <button class="modal-close-btn" onclick="closeProductModal()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
+
+      <!-- Image Gallery -->
       <div class="modal-gallery zoom-container" style="position: relative;">
         <div id="modalImageSlider" style="display: flex; width: 100%; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none;">
           <img id="modalImage" class="slider-img" style="scroll-snap-align: start; flex-shrink: 0; width: 100%; height: 100%; object-fit: contain;" src="" alt="Product Detail">
         </div>
-        <div id="modalImageDots" style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 5;">
-          <!-- Dots injected here -->
-        </div>
+        <div id="modalImageDots" style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 5;"></div>
+        
+        <!-- Wishlist Heart -->
+        <button id="wishlistBtn" class="wishlist-btn" onclick="toggleWishlist()" title="Save to wishlist">
+          <i data-lucide="heart" size="20"></i>
+        </button>
       </div>
+
+      <!-- Product Details -->
       <div class="modal-details">
         <div class="modal-header">
           <p id="modalCat" style="color: var(--sage); font-weight: 700; text-transform: uppercase; letter-spacing: 1px;"></p>
           <h2 id="modalTitle"></h2>
-          <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 1rem;">
+          <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 0.5rem;">
             <div id="modalPrice" style="font-size: 2rem; font-weight: 800; color: var(--cobalt);"></div>
             <div id="modalReviews" style="font-size: 0.9rem; color: #888;"></div>
           </div>
+          <p id="modalStockBadge" style="font-size: 0.8rem; color: #2DA94F; font-weight: 600; margin-bottom: 1rem;"></p>
         </div>
 
-        <div style="margin-bottom: 2rem;">
+        <!-- Variant Selection -->
+        <div style="margin-bottom: 1.5rem;">
           <h4 style="margin-bottom: 10px;">Select Variant</h4>
-          <div id="variantOptions" style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <!-- Variant buttons injected by JS -->
+          <div id="variantOptions" style="display: flex; gap: 10px; flex-wrap: wrap;"></div>
+        </div>
+
+        <!-- Description -->
+        <p id="modalDesc" style="color: var(--charcoal-light); margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.7;"></p>
+
+        <!-- Customer Reviews Strip -->
+        <div id="modalReviewSection" style="margin-bottom: 1.5rem; border-top: 1px solid #F0F0F0; padding-top: 1.2rem;">
+          <h4 style="margin-bottom: 0.8rem; font-size: 0.95rem; color: var(--charcoal);">💬 What customers say</h4>
+          <div id="modalReviewList" style="display: flex; flex-direction: column; gap: 0.8rem;"></div>
+        </div>
+
+        <!-- Handmade Guarantee -->
+        <div style="background: var(--cream-dark); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem; display: flex; gap: 12px; align-items: flex-start;">
+          <span style="font-size: 1.4rem;">🧶</span>
+          <div>
+            <p style="font-size: 0.8rem; font-weight: 700; color: var(--cobalt); margin-bottom: 2px;">100% Handcrafted</p>
+            <p style="font-size: 0.78rem; color: #888; margin: 0;">Each piece is uniquely made by our artisans. Minor variations are part of the handmade charm.</p>
           </div>
         </div>
-        <p style="color: var(--charcoal-light); margin-bottom: 2rem;">Every stitch in this piece was hand-crafted by our local artisans. We use sustainable, 100% cotton yarn.</p>
-        
+
+        <!-- Primary CTA -->
         <div class="modal-cta-container">
-          <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-            <div style="display: flex; align-items: center; border: 1px solid #DDD; border-radius: var(--radius-sm); padding: 5px 10px; width: 120px; justify-content: space-between;">
-               <button style="border: none; background: none; font-size: 1.5rem; cursor: pointer; color: var(--cobalt);" onclick="document.getElementById('modalQty').stepDown()">&minus;</button>
-               <input type="number" id="modalQty" value="1" min="1" max="10" style="width: 40px; text-align: center; border: none; font-size: 1.1rem; font-weight: 700; background: none;">
-               <button style="border: none; background: none; font-size: 1.5rem; cursor: pointer; color: var(--cobalt);" onclick="document.getElementById('modalQty').stepUp()">&plus;</button>
-            </div>
-            <div style="flex: 1; display: flex; gap: 10px; min-width: 200px;">
-              <button class="btn btn-secondary" style="flex: 1; padding: 0.8rem 0.5rem; font-size: 0.9rem;" onclick="addToCart(currentSelectedId); closeProductModal();">Add to Cart</button>
-              <button class="btn btn-primary" style="flex: 1; padding: 0.8rem 0.5rem; font-size: 0.9rem;" onclick="buyNow(currentSelectedId)">Buy Now</button>
-            </div>
-          </div>
-          <p class="desktop-only" style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: #999;">Free shipping on orders over ₹4,999.</p>
+          <button class="btn btn-primary btn-inquire" id="inquireBtn" onclick="inquireOnInstagram()">
+            <i data-lucide="instagram" size="20"></i>
+            Inquire on Instagram
+          </button>
+          <p style="text-align: center; font-size: 0.78rem; color: #999; margin-top: 0.6rem;">
+            Opens Instagram · Message gets auto-copied to clipboard
+          </p>
+        </div>
+
+        <!-- Related Products -->
+        <div id="relatedSection" style="border-top: 1px solid #F0F0F0; margin-top: 1.5rem; padding-top: 1.2rem;">
+          <h4 style="margin-bottom: 1rem; font-size: 0.95rem;">You may also like</h4>
+          <div id="relatedProducts" style="display: flex; gap: 12px; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none;"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Orders Modal -->
-  <div class="product-modal" id="ordersModal" onclick="if(event.target === this) closeOrdersModal()">
-    <div class="modal-content" style="max-width: 600px; padding: 2rem;">
-      <button class="close-drawer" style="position: absolute; top: 20px; right: 20px; z-index: 10;" onclick="closeOrdersModal()">&times;</button>
-      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem;">
-        <i data-lucide="package" size="28" style="color: var(--cobalt);"></i>
-        <h2 style="font-size: 1.8rem; color: var(--cobalt);">My Orders</h2>
-      </div>
-      <div id="ordersContainer" style="max-height: 400px; overflow-y: auto; text-align: left;">
-         <!-- Orders injected here -->
-         <p style="color: #666;">No past orders found.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Checkout Page -->
-  <section class="checkout-page" id="checkoutPage" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; background: var(--cream); z-index: 10000; overflow: hidden; flex-direction: column;">
-    
-    <!-- Top Bar -->
-    <div style="padding: 1rem 5%; background: white; flex-shrink: 0; display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid #EEE;">
-      <i data-lucide="arrow-left" size="24" style="cursor: pointer; color: var(--cobalt);" onclick="closeCheckout()"></i>
-      <h2 style="font-size: 1.5rem; color: var(--cobalt); margin: 0;">Secure Checkout</h2>
-    </div>
-
-    <!-- Progress Indicator -->
-    <div style="flex-shrink: 0; padding: 1rem 5%; background: white; border-bottom: 1px solid #EEE;">
-       <div class="checkout-progress-container" style="max-width: 600px; margin: 0 auto;">
-         <img src="assets/mascot_new.png" alt="Mascot Progress" class="checkout-mascot" id="checkoutMascot">
-         <i data-lucide="truck" size="40" class="progress-truck"></i>
-       </div>
-       <div class="checkout-steps" style="max-width: 600px; margin: 1rem auto 0 auto; display: flex; justify-content: space-between;">
-         <div class="checkout-step active" id="step1">1. Shipping</div>
-         <div class="checkout-step" id="step2">2. Payment</div>
-         <div class="checkout-step" id="step3">3. Review</div>
-       </div>
-    </div>
-
-    <!-- Scrollable Form Content -->
-    <div style="flex: 1; overflow-y: auto; padding: 1.5rem 5%;">
-       <div style="max-width: 600px; margin: 0 auto; background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-         
-         <div id="shippingForm">
-           <div id="prevAddressContainer" style="display: none; background: var(--blue-bg); padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; text-align: center;">
-             <p style="font-size: 0.9rem; color: var(--charcoal); margin-bottom: 0.5rem;">We found a previously saved address.</p>
-             <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem; border-radius: var(--radius-sm);" onclick="fillPreviousAddress()">Use Previous Address</button>
-           </div>
-           <div class="form-group" style="margin-bottom: 1.5rem;">
-             <label style="display: block; margin-bottom: 0.5rem; font-weight: 700;">Full Name</label>
-             <input type="text" id="fullNameInput" style="width: 100%; padding: 1rem; border: 1px solid #DDD; border-radius: 12px;" placeholder="John Doe">
-           </div>
-           <div class="form-group" style="margin-bottom: 1.5rem;">
-             <label style="display: block; margin-bottom: 0.5rem; font-weight: 700;">Pincode</label>
-             <input type="text" id="pincodeInput" oninput="mockPincodeLookup(this.value)" style="width: 100%; padding: 1rem; border: 1px solid #DDD; border-radius: 12px;" placeholder="400001">
-           </div>
-           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-             <div class="form-group">
-               <label style="display: block; margin-bottom: 0.5rem; font-weight: 700;">City</label>
-               <input type="text" id="cityInput" style="width: 100%; padding: 1rem; border: 1px solid #DDD; border-radius: 12px; background: var(--cream);" readonly>
-             </div>
-             <div class="form-group">
-               <label style="display: block; margin-bottom: 0.5rem; font-weight: 700;">State</label>
-               <input type="text" id="stateInput" style="width: 100%; padding: 1rem; border: 1px solid #DDD; border-radius: 12px; background: var(--cream);" readonly>
-             </div>
-           </div>
-           <div class="form-group" style="margin-bottom: 1.5rem;">
-             <label style="display: block; margin-bottom: 0.5rem; font-weight: 700;">House/Flat No. & Building</label>
-             <input type="text" id="address1Input" style="width: 100%; padding: 1rem; border: 1px solid #DDD; border-radius: 12px;" placeholder="Flat 12A, Yarn Towers">
-           </div>
-           <div class="form-group" style="margin-bottom: 1.5rem;">
-             <label style="display: block; margin-bottom: 0.5rem; font-weight: 700;">Area & Landmark</label>
-             <input type="text" id="address2Input" style="width: 100%; padding: 1rem; border: 1px solid #DDD; border-radius: 12px;" placeholder="Near Blue Stitch Park">
-           </div>
-           <div class="form-group" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
-             <input type="checkbox" id="saveAddress" checked style="accent-color: var(--cobalt); width: 1.2rem; height: 1.2rem;">
-             <label for="saveAddress" style="font-weight: 600;">Save this address for future</label>
-             <select style="margin-left: auto; padding: 5px 10px; border-radius: 8px; border: 1px solid #DDD; outline: none; background: white;">
-               <option>Home</option>
-               <option>Office</option>
-               <option>Other</option>
-             </select>
-           </div>
-         </div>
-
-            <div class="mobile-only">
-              <h4 style="margin-bottom: 1rem; color: var(--charcoal); font-size: 1rem;">Recommended Payments</h4>
-              <div style="background: white; border-radius: 12px; border: 1px solid #DDD; margin-bottom: 1.5rem; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.02);">
-                 <div onclick="triggerUPI('cred')" style="display: flex; align-items: center; justify-content: space-between; padding: 1.2rem; border-bottom: 1px solid #EEE; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#F9F9F9'" onmouseout="this.style.background='white'">
-                   <div style="display: flex; align-items: center; gap: 15px;">
-                      <div style="width: 32px; height: 32px; background: #222; color: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: sans-serif;">C</div>
-                      <strong style="font-size: 1rem; color: #333;">CRED UPI</strong>
-                   </div>
-                   <i data-lucide="chevron-right" size="20" style="color: #999;"></i>
-                 </div>
-                 
-                 <div onclick="triggerUPI('phonepe')" style="display: flex; align-items: center; justify-content: space-between; padding: 1.2rem; border-bottom: 1px solid #EEE; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#F9F9F9'" onmouseout="this.style.background='white'">
-                   <div style="display: flex; align-items: center; gap: 15px;">
-                      <div style="width: 32px; height: 32px; background: #5f259f; color: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold;">पे</div>
-                      <div style="display: flex; flex-direction: column;">
-                          <strong style="font-size: 1rem; color: #333;">PhonePe UPI</strong>
-                          <span style="font-size: 0.75rem; color: #888; margin-top: 2px;">Fast & Secure</span>
-                      </div>
-                   </div>
-                   <i data-lucide="chevron-right" size="20" style="color: #999;"></i>
-                 </div>
-                 
-                 <div onclick="triggerUPI('gpay')" style="display: flex; align-items: center; justify-content: space-between; padding: 1.2rem; border-bottom: 1px solid #EEE; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#F9F9F9'" onmouseout="this.style.background='white'">
-                   <div style="display: flex; align-items: center; gap: 15px;">
-                      <div style="width: 32px; height: 32px; background: white; border: 1px solid #eee; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #4285F4;">G</div>
-                      <strong style="font-size: 1rem; color: #333;">GPay UPI</strong>
-                   </div>
-                   <i data-lucide="chevron-right" size="20" style="color: #999;"></i>
-                 </div>
-                 
-                 <div onclick="triggerUPI('amazon')" style="display: flex; align-items: center; justify-content: space-between; padding: 1.2rem; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#F9F9F9'" onmouseout="this.style.background='white'">
-                   <div style="display: flex; align-items: center; gap: 15px;">
-                      <div style="width: 32px; height: 32px; background: #FF9900; color: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: serif;">a</div>
-                      <strong style="font-size: 1rem; color: #333;">Amazon Pay UPI</strong>
-                   </div>
-                   <i data-lucide="chevron-right" size="20" style="color: #999;"></i>
-                 </div>
-              </div>
-            </div>
-
-            <div class="desktop-only" style="text-align: center; margin-top: 1rem;">
-               <div style="background: #F4F7FF; padding: 2rem; border-radius: 20px; display: inline-block; box-shadow: 0 8px 32px rgba(0,0,0,0.05); max-width: 350px; width: 100%;">
-                  <div style="display: flex; flex-direction: column; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem;">
-                      <div style="width: 40px; height: 40px; background: var(--cobalt); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1rem;">LK</div>
-                      <h3 style="font-size: 1.2rem; color: #333; margin: 0;">Loopy Knots</h3>
-                  </div>
-
-                  <div style="background: white; padding: 1.2rem; border-radius: 16px; position: relative; display: inline-block; margin-bottom: 1rem; border: 1px solid #EEE;">
-                     <img id="desktopPaymentQr" src="" alt="Payment QR Code" style="width: 200px; height: 200px; display: block; image-rendering: pixelated;">
-                     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 3px; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Google_Pay_G_Logo.svg" alt="GPay" style="width: 20px; height: 20px;">
-                     </div>
-                  </div>
-
-                  <div>
-                      <p style="font-size: 0.8rem; color: #888; margin-bottom: 1.5rem;">Scan to pay with any UPI app</p>
-                      <button class="btn btn-primary" id="btn-desktop-paid" style="width: 100%; border-radius: var(--radius-xl); padding: 0.8rem;" onclick="nextStep(3)">I have scanned and paid</button>
-                  </div>
-               </div>
-            </div>
-            
-            <div style="text-align: center; margin-bottom: 1.5rem;">
-              <small style="color: #888;"><i data-lucide="shield-check" size="14" style="vertical-align: middle;"></i> 100% Secured Payments</small>
-            </div>
-          </div>
-
-         <div id="reviewForm" style="display: none; text-align: left;">
-            <h3 style="margin-bottom: 1rem;">Final Review</h3>
-            <div style="background: var(--cream-dark); padding: 1.5rem; border-radius: 16px; margin-bottom: 0;">
-              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                <span>Subtotal</span>
-                <span id="reviewSubtotal">₹0</span>
-              </div>
-              <div id="intraTaxRow" style="display: block;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: #666;">
-                  <span>CGST (9%)</span>
-                  <span id="cgstLabel">₹0</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: #666;">
-                  <span>SGST (9%)</span>
-                  <span id="sgstLabel">₹0</span>
-                </div>
-              </div>
-              <div id="interTaxRow" style="display: none;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: #666;">
-                  <span>IGST (18%)</span>
-                  <span id="igstLabel">₹0</span>
-                </div>
-              </div>
-              <div style="display: flex; justify-content: space-between; margin-top: 1rem; border-top: 1px solid #DDD; padding-top: 1rem; font-weight: 800; font-size: 1.4rem; color: var(--cobalt);">
-                <span>Grand Total</span>
-                <span id="reviewTotal">₹0</span>
-              </div>
-            </div>
-         </div>
-       </div>
-    </div>
-
-    <!-- Sticky Footer / Front CTA -->
-    <div style="flex-shrink: 0; padding: 1.5rem 5%; background: white; border-top: 1px solid #EEE; box-shadow: 0 -4px 15px rgba(0,0,0,0.05);">
-       <div style="max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
-          <button class="btn btn-primary" id="btn-step1" style="width: 100%; border-radius: var(--radius-xl); font-size: 1.1rem; padding: 1rem;" onclick="nextStep(2)">Continue to Payment</button>
-          <button class="btn btn-primary" id="btn-step3" style="width: 100%; border-radius: var(--radius-xl); font-size: 1.1rem; padding: 1rem; display: none; align-items: center; justify-content: center;" onclick="confirmPayment()">Place Order</button>
-          <button style="background: none; color: var(--charcoal-light); border: none; font-size: 1rem; text-decoration: underline; cursor: pointer; padding: 0.5rem;" onclick="closeCheckout()">Cancel & Return to Shop</button>
-       </div>
-    </div>
-  </section>
-
-  <!-- Success Page -->
-  <section class="success-page" id="successPage" style="display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; background: var(--cream); z-index: 10001; overflow: auto; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem;">
-    <div style="background: white; padding: 3rem 2rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); max-width: 500px; width: 100%; margin: auto;">
-      <div style="width: 80px; height: 80px; background: #2DA94F; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; margin-bottom: 2rem; box-shadow: 0 10px 20px rgba(45, 169, 79, 0.3);">
-        <i data-lucide="check" size="40" style="stroke: white;"></i>
-      </div>
-      <h2 style="font-size: 2.2rem; margin-bottom: 0.5rem; color: var(--charcoal);">Payment Successful!</h2>
-      <p style="color: #666; margin-bottom: 1.5rem;">Your order <strong>#LK-<span id="successOrderId">1249</span></strong> has been placed securely.</p>
+  <!-- ======================== MAKE IT FOR ME SECTION ======================== -->
+  <section class="make-it-section" id="makeItForMe">
+    <div class="make-it-bg"></div>
+    <div class="make-it-content">
       
-      <div style="background: var(--cream-dark); border-radius: 16px; padding: 1.5rem; text-align: left; margin-bottom: 2.5rem;">
-        <h4 style="margin-bottom: 1rem; color: var(--cobalt);">Order Summary</h4>
-        <div id="successOrderList" style="max-height: 150px; overflow-y: auto; margin-bottom: 1rem; font-size: 0.9rem; border-bottom: 1px solid #DDD; padding-bottom: 1rem;">
-          <!-- Items injected via JS -->
-        </div>
-        <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 1.2rem; color: var(--cobalt);">
-          <span>Total Paid</span>
-          <span id="successTotal">₹0</span>
-        </div>
+      <!-- Header -->
+      <div class="make-it-header">
+        <div class="make-it-badge">✨ Custom Orders</div>
+        <h2>Have a vision? <br>Let's make it real.</h2>
+        <p>Found something you love on Pinterest or Instagram? Upload it and tell us what you want. We'll bring your dream piece to life — all handled through Instagram DM.</p>
       </div>
 
-      <button class="btn btn-primary" style="width: 100%; border-radius: var(--radius-xl); font-size: 1.1rem; padding: 1rem;" onclick="closeSuccess()">Continue Shopping</button>
+      <!-- Upload Widget -->
+      <div class="make-it-form" id="makeItForm">
+        <!-- Image Upload Zone -->
+        <div class="upload-zone" id="miUploadZone" onclick="document.getElementById('miFileInput').click()">
+          <div class="upload-zone-inner" id="miUploadInner">
+            <div class="upload-icon">📸</div>
+            <p class="upload-title">Drop your reference image here</p>
+            <p class="upload-subtitle">Pinterest, Instagram screenshot, or any photo</p>
+            <span class="upload-tag">Click to browse</span>
+          </div>
+        </div>
+        <input type="file" id="miFileInput" accept="image/*" style="display: none;" onchange="handleMakeItUpload(this)">
+
+        <!-- Description Box -->
+        <div class="make-it-desc-wrap">
+          <label style="font-weight: 700; font-size: 0.9rem; color: var(--charcoal); display: block; margin-bottom: 0.6rem;">
+            Describe what you want
+          </label>
+          <textarea id="miDescription" rows="4" placeholder="e.g. I want this in cobalt blue, a bit bigger, with a pearl charm on it if possible..." style="width: 100%; padding: 1rem; border: 1.5px solid #DDD; border-radius: 14px; font-family: inherit; font-size: 0.95rem; resize: none; transition: border-color 0.2s; box-sizing: border-box;"></textarea>
+        </div>
+
+        <button class="btn btn-primary make-it-submit-btn" onclick="previewMakeItRequest()">
+          ✨ Preview My Custom Request
+        </button>
+      </div>
+
+      <!-- Request Preview Card -->
+      <div class="make-it-preview hidden" id="makeItPreview">
+        <div class="preview-card">
+          <div class="preview-card-header">
+            <i data-lucide="sparkles" size="20" style="color: var(--cobalt);"></i>
+            <span>Your Custom Request</span>
+          </div>
+          <div class="preview-card-body">
+            <img id="previewImage" src="" alt="Reference" class="preview-image">
+            <p id="previewDesc" class="preview-desc"></p>
+          </div>
+          <div class="preview-card-footer">
+            <div class="preview-copied-msg" id="previewCopiedMsg" style="display: none;">
+              <i data-lucide="check-circle" size="16"></i> Message copied to clipboard!
+            </div>
+            <div class="preview-actions">
+              <button class="btn btn-primary btn-inquire" onclick="sendCustomOrderToInstagram()">
+                <i data-lucide="instagram" size="18"></i>
+                Send on Instagram
+              </button>
+              <button class="btn btn-secondary" onclick="copyRequestText()" style="padding: 0.8rem 1.2rem;">
+                <i data-lucide="copy" size="16"></i> Copy Text
+              </button>
+            </div>
+          </div>
+        </div>
+        <button class="make-it-reset-btn" onclick="resetMakeIt()">
+          ← Start Over
+        </button>
+      </div>
+
     </div>
   </section>
 
-  <footer style="background: var(--cream-dark); padding: 5rem 5% 2rem 5%; margin-top: 5rem;">
+  <!-- Footer -->
+  <footer style="background: var(--cream-dark); padding: 5rem 5% 2rem 5%; margin-top: 0;">
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 3rem;">
       <div>
         <h4 style="margin-bottom: 1rem; color: var(--cobalt);">About Loopy Knots</h4>
         <p style="font-size: 0.9rem; color: var(--charcoal-light); margin-bottom: 1rem;">
-          <strong style="color: var(--terracotta);">* Handmade Disclaimer:</strong> Each item is uniquely handcrafted; minor variations are part of the charm.
+          Premium handcrafted crochet made with love and sustainable cotton yarn. Browse our catalog and reach out via Instagram to place an order.
         </p>
+        <a href="https://instagram.com/loopyknots" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; color: var(--cobalt); font-weight: 700; text-decoration: none;">
+          <i data-lucide="instagram" size="18"></i> @loopyknots
+        </a>
       </div>
       <div>
         <h4 style="margin-bottom: 1rem; color: var(--cobalt);">Policies & Support</h4>
         <ul style="font-size: 0.9rem; color: var(--charcoal-light); display: flex; flex-direction: column; gap: 0.8rem; line-height: 1.4;">
-          <li><strong>Returns:</strong> Accepted within 48 hours only if damaged during transit. <i>Unboxing video is mandatory for claims.</i></li>
-          <li><strong>Refunds:</strong> Processed to the original payment method within 5-7 business days for eligible returns.</li>
-          <li><strong>Cancellations:</strong> Orders can only be cancelled within 2 hours of placement due to the handmade nature of our products.</li>
+          <li><strong>Returns:</strong> Accepted within 48 hours for damaged goods. Unboxing video required.</li>
+          <li><strong>Custom Orders:</strong> All custom orders are final once production begins.</li>
+          <li><strong>Contact:</strong> DM us on Instagram for all inquiries, orders & support.</li>
         </ul>
       </div>
     </div>
     <div style="text-align: center; color: var(--sage); font-size: 0.9rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 2rem;">
-      &copy; 2026 Loopy Knots E-Commerce. Built with love and cobalt yarn.
+      © 2026 Loopy Knots. Handcrafted with 💙 and cobalt yarn.
     </div>
   </footer>
 
-  <!-- WhatsApp CTA -->
-  <a href="#" class="whatsapp-chat-btn" title="Chat with us on WhatsApp" onclick="alert('Opening WhatsApp for Loopy Knots Support')">
-    <i data-lucide="message-circle" size="30"></i>
+  <!-- Floating Instagram DM Button -->
+  <a href="https://ig.me/m/loopyknots" target="_blank" class="floating-ig-btn" title="Chat with us on Instagram">
+    <i data-lucide="instagram" size="26"></i>
+    <span class="floating-ig-label">Chat with us</span>
   </a>
 
-  <!-- Simple Login Modal -->
-  <div class="product-modal" id="loginModal">
-    <div class="modal-content" style="max-width: 400px; display: block; padding: 3rem; text-align: center; position: relative;">
-      <button class="close-drawer" style="position: absolute; top: 20px; right: 20px; z-index: 100;" onclick="closeLoginModal()">&times;</button>
-      <h3 style="font-size: 1.8rem; color: var(--cobalt); margin-bottom: 0.5rem;" id="loginModalTitle">Welcome back!</h3>
-      <p style="color: #666; margin-bottom: 2rem;">Log in to track your orders and enjoy a faster checkout.</p>
-      
-      <div id="phoneStep" style="box-sizing: border-box;">
-        <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; width: 100%; box-sizing: border-box;">
-          <input type="text" value="+91" readonly style="width: 70px; text-align: center; border: 1px solid #DDD; border-radius: var(--radius-sm); font-weight: 700; background: var(--cream); padding: 0; box-sizing: border-box;">
-          <input type="tel" id="phoneNumber" placeholder="9876543210" style="flex: 1; padding: 1rem; border: 1px solid #DDD; border-radius: var(--radius-sm); font-size: 1.1rem; letter-spacing: 1px; min-width: 0; box-sizing: border-box;">
-        </div>
-        <button class="btn btn-primary" style="width: 100%; box-sizing: border-box;" onclick="sendOTP()">Log in</button>
-      </div>
-    </div>
-  </div>
-
+  <!-- Toast Container -->
   <div id="toastContainer" class="toast-container"></div>
 
   <script src="js/waves.js"></script>
   <script src="js/slider.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/v2main.js"></script>
   <script>lucide.createIcons();</script>
 </body>
 </html>
