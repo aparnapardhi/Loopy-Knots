@@ -126,6 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
   checkShareableProductURL();
   setupMakeItDragDrop();
   lucide.createIcons();
+
+  // Re-initialize wavy background if the container exists
+  if (window.Waves && document.getElementById('waves-container')) {
+    new Waves('waves-container', { strokeColor: '#1A53FF', backgroundColor: 'transparent' });
+  }
 });
 
 /* ─────────────────────────────────────────
