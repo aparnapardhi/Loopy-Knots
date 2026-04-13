@@ -129,7 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Re-initialize wavy background if the container exists
   if (window.Waves && document.getElementById('waves-container')) {
+    console.log("Initializing Waves...");
     new Waves('waves-container', { strokeColor: '#1A53FF', backgroundColor: 'transparent' });
+  } else {
+    console.warn("Waves or waves-container missing:", { waves: !!window.Waves, container: !!document.getElementById('waves-container') });
   }
 });
 

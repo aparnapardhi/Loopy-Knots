@@ -23,7 +23,15 @@ class Waves {
 
         this.paths = [];
         this.lines = [];
-        this.noise = new SimplexNoise(); // Assumes SimplexNoise is loaded via CDN
+        
+        // SimplexNoise check and initialization
+        if (typeof SimplexNoise !== 'undefined') {
+          this.noise = new SimplexNoise();
+        } else {
+          console.error("SimplexNoise is not defined. Ensure the library is loaded via CDN.");
+          return; // Exit constructor if noise is missing
+        }
+        
         this.raf = null;
         this.bounding = null;
 
