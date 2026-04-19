@@ -134,6 +134,12 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     console.warn("Waves or waves-container missing:", { waves: !!window.Waves, container: !!document.getElementById('waves-container') });
   }
+
+  // Initialize image ticker slider
+  if (window.HeroSlider && document.getElementById('hero-slider')) {
+    console.log("Initializing Hero Slider...");
+    new HeroSlider('hero-slider');
+  }
 });
 
 /* ─────────────────────────────────────────
